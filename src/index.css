@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* dark mode (default) */
+  --color-bg: 10 14 20;            /* #0A0E14 */
+  --color-bg-soft: 15 23 41;       /* #0F1729 */
+  --color-card: 15 23 41;          /* #0F1729 */
+  --color-elev: 22 32 54;          /* slightly lighter than card, for popovers/modals */
+  --color-text: 247 248 251;       /* #F7F8FB */
+  --color-text-muted: 148 158 172; /* #949EAC */
+  --color-text-faint: 120 130 145;  /* Pass WCAG AA 4.5:1 against bg-card */
+  --color-border: 30 41 56;        /* #1E 29 38 */
+  --color-border-soft: 46 60 80;
+  --color-primary: 46 94 255;      /* #2E5EFF */
+  --color-primary-hover: 74 116 255;  /* #4A74FF */
+  --color-primary-deep: 26 63 204;    /* #1A3FCC */
+  --color-success: 34 197 94;      /* #22C55E */
+  --color-warning: 245 158 11;     /* #F59E0B */
+  --color-error: 239 68 68;        /* #EF4444 */
+}
+
+.light {
+  --color-bg: 247 248 251;         /* #F7F8FB */
+  --color-bg-soft: 255 255 255;
+  --color-card: 255 255 255;
+  --color-elev: 255 255 255;
+  --color-text: 10 14 20;          /* #0A0E14 */
+  --color-text-muted: 91 100 114;  /* #5B6472 */
+  --color-text-faint: 106 115 130; /* Pass WCAG AA 4.5:1 against bg-card */
+  --color-border: 226 230 236;     /* #E2E6EC */
+  --color-border-soft: 209 215 224;
+  --color-primary: 46 94 255;      /* same blue both modes */
+  --color-primary-hover: 26 63 204;  /* deepen on hover for light-bg contrast, inverse of dark mode */
+  --color-primary-deep: 20 48 158;
+  --color-success: 22 163 74;      /* slightly deepened for light-bg contrast */
+  --color-warning: 217 119 6;
+  --color-error: 220 38 38;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { font-family: 'IBM Plex Sans', system-ui, sans-serif; line-height: 1.6; @apply bg-bg text-text; }
+  * { -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; }
+
+  /* Theme transition */
+  @media (prefers-reduced-motion: no-preference) {
+    *, *::before, *::after {
+      transition-property: background-color, border-color, color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out;
+    border-radius: 2px;
+  }
+  .btn:hover { transform: scale(1.01); }
+  .btn:active { transform: scale(0.99); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn:disabled:hover { transform: none; }
+
+  .btn-primary {
+    @apply btn font-semibold bg-primary text-white shadow-primary;
+  }
+  .btn-primary:hover { @apply bg-primary-hover; }
+
+  .btn-secondary {
+    @apply btn bg-bg-elev text-text border border-border;
+  }
+  .btn-secondary:hover { @apply border-border-soft; }
+
+  .btn-ghost {
+    @apply btn text-text-muted;
+  }
+  .btn-ghost:hover { @apply text-text bg-bg-elev; }
+
+  .input {
+    @apply w-full px-4 py-2.5 text-sm transition-colors duration-150 bg-bg border border-border text-text;
+    border-radius: 2px;
+  }
+  .input::placeholder { @apply text-text-faint; }
+  .input:focus { outline: none; @apply border-primary; }
+
+  .card {
+    @apply transition-all duration-200 ease-out bg-bg-card border border-border;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02);
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    border-color: rgb(var(--color-primary) / 0.3);
+  }
+
+  .label {
+    @apply block text-sm font-medium mb-1.5 text-text-muted;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 text-xs font-medium;
+    border-radius: 2px;
+  }
+
+  .nav-link { @apply transition-colors duration-150; }
+
+  .icon-btn { @apply transition-transform duration-150 ease-out; }
+  .icon-btn:hover { transform: scale(1.1); }
+  .icon-btn:active { transform: scale(0.95); }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { @apply bg-border; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { @apply bg-border-soft; }
+
+@keyframes brand-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-brand-fade { animation: brand-fade 700ms ease-out both; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ambientFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes ambientGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
