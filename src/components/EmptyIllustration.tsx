@@ -18,7 +18,7 @@ export function EmptyIllustration({ maxWidth = 360 }: { maxWidth?: number }) {
         src={emptyTray}
         alt=""
         style={{ maxWidth }}
-        className="mx-auto w-full h-auto select-none pointer-events-none"
+        className="mx-auto w-full h-auto select-none pointer-events-none mix-blend-screen"
       />
     )
   }
@@ -28,7 +28,7 @@ export function EmptyIllustration({ maxWidth = 360 }: { maxWidth?: number }) {
       src={emptyTray}
       alt=""
       style={{ maxWidth }}
-      className="mx-auto w-full h-auto select-none pointer-events-none"
+      className="mx-auto w-full h-auto select-none pointer-events-none mix-blend-screen"
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1, y: [0, -4, 0] }}
       transition={{
