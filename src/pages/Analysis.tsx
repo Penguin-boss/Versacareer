@@ -56,7 +56,7 @@ export default function Analysis() {
         icon={FileText}
         title="No analyses yet"
         description="Upload your resume to get an AI-powered breakdown of your ATS, technical, market, and project scores."
-        action={<Link to="/upload" className="btn-primary">Upload your resume</Link>}
+        action={<Link to="/upload" className="btn-accent">Upload your resume</Link>}
       />
     )
   }
@@ -91,7 +91,7 @@ export default function Analysis() {
         {/* Main */}
         <div className="lg:col-span-2 space-y-6">
           {/* Score gauges — stagger starts ~150ms after banner begins */}
-          <motion.div variants={fadeSlideUp} className="card p-6 card-hover">
+          <motion.div variants={fadeSlideUp} className="card card-accent p-6 card-hover">
             <ScoreGauges current={current} />
             {current.suitable_roles_text && (
               <div className="rounded-[2px] bg-bg-soft border border-border p-4 mt-6">
@@ -150,15 +150,15 @@ export default function Analysis() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <motion.div variants={fadeSlideUp} className="card p-6 card-hover">
-              <h3 className="font-medium mb-3">Detected Skills</h3>
+              <h3 className="font-medium mb-3 diamond-accent">Detected Skills</h3>
               <div className="flex flex-wrap gap-2">
                 {current.current_skills?.length ? current.current_skills.map((s, i) => (
-                  <span key={i} className="badge bg-primary/10 text-primary border border-primary/20">{s}</span>
+                  <span key={i} className="badge bg-primary-soft text-primary border border-primary/20">{s}</span>
                 )) : <span className="text-sm text-text-faint">None detected.</span>}
               </div>
             </motion.div>
             <motion.div variants={fadeSlideUp} className="card p-6 card-hover">
-              <h3 className="font-medium mb-3">Missing Skills</h3>
+              <h3 className="font-medium mb-3 diamond-accent">Missing Skills</h3>
               <div className="flex flex-wrap gap-2">
                 {current.missing_skills?.length ? current.missing_skills.map((s, i) => (
                   <span key={i} className="badge bg-error/10 text-error border border-error/20">{s}</span>

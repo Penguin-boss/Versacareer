@@ -97,7 +97,7 @@ export default function Profile() {
               <Mail className="h-4 w-4 text-text-faint" /> {profile.email}
             </div>
             <div className="flex items-center gap-2 text-text-muted">
-              <Shield className="h-4 w-4 text-text-faint" /> Plan: <span className="badge bg-primary/10 text-primary border border-primary/20">{profile.plan}</span>
+              <Shield className="h-4 w-4 text-text-faint" /> Plan: <span className="badge bg-primary-soft text-primary border border-primary/20">{profile.plan}</span>
             </div>
             <div className="flex items-center gap-2 text-text-muted">
               <Briefcase className="h-4 w-4 text-text-faint" /> {profile.job_title ?? 'No title set'}
@@ -127,13 +127,13 @@ export default function Profile() {
             </div>
 
             <div className="pt-2 border-t border-border">
-              <h4 className="text-sm font-medium mb-3 mt-3 flex items-center gap-2"><Target className="h-4 w-4 text-primary" /> Career Preferences</h4>
+              <h4 className="text-sm font-medium mb-3 mt-3 flex items-center gap-2"><div className="diamond-accent"></div><Target className="h-4 w-4 text-primary" /> Career Preferences</h4>
               <div className="space-y-4">
                 <div>
                   <label className="label">Target roles</label>
                   <div className="flex flex-wrap gap-2">
                     {CAREER_PATHS.map((r) => (
-                      <button key={r} type="button" onClick={() => toggleRole(r)} className={`rounded-[2px] border px-3 py-1.5 text-xs transition-colors ${targetRoles.includes(r) ? 'bg-primary/10 border-primary/40 text-text' : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'}`}>{r}</button>
+                      <button key={r} type="button" onClick={() => toggleRole(r)} className={`rounded-[2px] border px-3 py-1.5 text-xs transition-colors ${targetRoles.includes(r) ? 'bg-primary-soft border-primary/40 text-text' : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'}`}>{r}</button>
                     ))}
                   </div>
                 </div>

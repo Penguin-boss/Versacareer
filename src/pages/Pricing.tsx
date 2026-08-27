@@ -151,7 +151,7 @@ export default function Pricing() {
 
           {/* Pro */}
           <PlanCard
-            icon={<Crown className="h-5 w-5 text-primary" />}
+            icon={<Crown className="h-5 w-5 text-warning" />}
             name="Pro"
             price={billing === 'monthly' ? `₹${PLAN_PRICING.PRO.monthly}` : `₹${PLAN_PRICING.PRO.yearly}`}
             period={billing === 'monthly' ? '/mo' : '/yr'}
@@ -327,7 +327,7 @@ export default function Pricing() {
         <Link to="/dashboard" className="btn-primary text-base px-6 py-3 inline-flex">Get started free <ArrowRight className="h-4 w-4" /></Link>
       </motion.section>
 
-      <footer className="border-t border-border relative z-10">
+      <footer className="border-t border-border relative z-10 bg-bg-soft">
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 text-center text-sm text-text-faint">
           VersaCareer is a product of Pragma, the AI SaaS wing of Optimus, founded by Vadlamudi Sai Chanakya and Devella Sankeerth.
         </div>
@@ -350,9 +350,9 @@ function PlanCard({
   sub?: string
 }) {
   return (
-    <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'border-primary/40 shadow-glow' : ''}`}>
+    <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'card-accent' : ''}`}>
       {badge && (
-        <div className="absolute -top-3 right-5 badge bg-primary text-white border border-primary/20">{badge}</div>
+        <div className={`absolute -top-3 right-5 badge ${highlight ? 'bg-warning text-white border border-warning/20' : 'bg-primary text-white border border-primary/20'}`}>{badge}</div>
       )}
       <div className="flex items-center gap-2 mb-1">
         {icon}

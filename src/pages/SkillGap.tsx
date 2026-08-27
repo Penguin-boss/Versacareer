@@ -100,7 +100,7 @@ export default function SkillGap() {
         icon={Target}
         title="No resume analysis yet"
         description="Analyze your resume first — we use the detected skills as your baseline for the gap analysis."
-        action={<Link to="/upload" className="btn-primary">Upload your resume</Link>}
+        action={<Link to="/upload" className="btn-accent">Upload your resume</Link>}
       />
     )
   }
@@ -141,14 +141,14 @@ export default function SkillGap() {
 
       <motion.div variants={staggerContainer(60)} initial="hidden" animate="visible" className="grid lg:grid-cols-2 gap-6">
         <motion.div variants={fadeSlideUp} className="card p-6 card-hover">
-          <h3 className="font-medium mb-4">Skill Coverage</h3>
+          <h3 className="font-medium mb-4 diamond-accent">Skill Coverage</h3>
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <RadarChart data={radarData}>
                 <PolarGrid stroke={theme === 'dark' ? '#1E2938' : '#E2E6EC'} />
                 <PolarAngleAxis dataKey="category" tick={{ fill: theme === 'dark' ? '#949EAC' : '#5B6472', fontSize: 12 }} />
                 <PolarRadiusAxis domain={[0, 100]} tick={{ fill: theme === 'dark' ? '#5B6472' : '#949EAC', fontSize: 10 }} stroke={theme === 'dark' ? '#1E2938' : '#E2E6EC'} />
-                <Radar dataKey="coverage" stroke="#2E5EFF" fill="#2E5EFF" fillOpacity={0.35} />
+                <Radar dataKey="coverage" stroke="rgb(var(--color-primary))" fill="rgb(var(--color-primary))" fillOpacity={0.35} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
@@ -158,7 +158,7 @@ export default function SkillGap() {
         </motion.div>
 
         <motion.div variants={fadeSlideUp} className="card p-6 card-hover">
-          <h3 className="font-medium mb-4">Missing Skills ({missing.length})</h3>
+          <h3 className="font-medium mb-4 diamond-accent">Missing Skills ({missing.length})</h3>
           {missing.length === 0 ? (
             <p className="text-sm text-success">You have all the core skills for this role. Nice!</p>
           ) : (
@@ -184,10 +184,10 @@ export default function SkillGap() {
       </motion.div>
 
       <motion.div variants={fadeSlideUp} className="card p-6 mt-6 card-hover">
-        <h3 className="font-medium mb-4">Current Skills ({currentSkills.length})</h3>
+        <h3 className="font-medium mb-4 diamond-accent">Current Skills ({currentSkills.length})</h3>
         <div className="flex flex-wrap gap-2">
           {currentSkills.length ? currentSkills.map((s) => (
-            <span key={s} className="badge bg-primary/10 text-primary border border-primary/20">{s}</span>
+            <span key={s} className="badge bg-primary-soft text-primary border border-primary/20">{s}</span>
           )) : <span className="text-sm text-text-faint">None detected.</span>}
         </div>
       </motion.div>

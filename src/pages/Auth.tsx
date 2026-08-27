@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import { ArrowLeft, Mail, Lock, User as UserIcon, MailCheck, RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useMotionVariants } from '../lib/motionVariants'
+import { AmbientBackground } from '../components/AmbientBackground'
 
 type Mode = 'signin' | 'signup' | 'check-inbox'
 type OAuthProvider = 'google' | 'github' | 'azure' | 'linkedin_oidc'
@@ -213,14 +214,15 @@ export default function AuthPage() {
   // ─── Check Inbox View ─────────────────────────────────────────────────────
   if (mode === 'check-inbox') {
     return (
-      <div className="min-h-screen bg-bg flex flex-col">
-        <header className="px-4 md:px-8 h-16 flex items-center">
+      <div className="min-h-screen bg-bg flex flex-col relative overflow-hidden">
+        <AmbientBackground />
+        <header className="px-4 md:px-8 h-16 flex items-center relative z-10">
           <button onClick={() => switchMode('signup')} className="btn-ghost"><ArrowLeft className="h-4 w-4" /> Back</button>
         </header>
-        <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="flex-1 flex items-center justify-center px-4 py-8 relative z-10">
           <motion.div initial="hidden" animate="visible" variants={fo} className="w-full max-w-md text-center">
             <motion.div variants={fsu} className="flex flex-col items-center gap-5">
-              <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="h-16 w-16 rounded-full bg-primary-soft flex items-center justify-center">
                 <MailCheck className="h-8 w-8 text-primary" />
               </div>
               <h1 className="text-2xl font-semibold">Check your inbox</h1>
@@ -259,11 +261,12 @@ export default function AuthPage() {
 
   // ─── Sign In / Sign Up View ───────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-bg flex flex-col">
-      <header className="px-4 md:px-8 h-16 flex items-center">
+    <div className="min-h-screen bg-bg flex flex-col relative overflow-hidden">
+      <AmbientBackground />
+      <header className="px-4 md:px-8 h-16 flex items-center relative z-10">
         <Link to="/" className="btn-ghost"><ArrowLeft className="h-4 w-4" /> Back</Link>
       </header>
-      <div className="flex-1 flex items-center justify-center px-4 py-8">
+      <div className="flex-1 flex items-center justify-center px-4 py-8 relative z-10">
         <motion.div initial="hidden" animate="visible" variants={fo} className="w-full max-w-md">
           <motion.div variants={fsu} className="text-center mb-8">
             <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png" alt="VersaCareer" className="h-14 w-auto rounded-[3px] mx-auto mb-4 object-contain" />

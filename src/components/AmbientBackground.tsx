@@ -17,12 +17,12 @@ export function AmbientBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {/* Slow gradient mesh */}
+      {/* Slow gradient mesh — brand palette: cool blue + lavender */}
       <div
         className="absolute inset-0 opacity-[0.04]"
         style={{
           background:
-            'radial-gradient(ellipse at 20% 30%, #3b82f6 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, #06b6d4 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, #10b981 0%, transparent 60%)',
+            'radial-gradient(ellipse at 20% 30%, rgb(91 127 204) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgb(155 142 196) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgb(70 106 180) 0%, transparent 60%)',
           backgroundSize: '200% 200%',
           animation: 'ambientGradient 25s ease-in-out infinite',
         }}
@@ -31,13 +31,16 @@ export function AmbientBackground() {
       {DOTS.map((d, i) => (
         <div
           key={i}
-          className="absolute rounded-full bg-primary"
+          className="absolute rounded-full"
           style={{
             left: d.left,
             top: d.top,
             width: d.size,
             height: d.size,
             opacity: 0.08,
+            background: i % 2 === 0
+              ? 'rgb(var(--color-primary))'
+              : 'rgb(var(--color-accent))',
             animation: `ambientFloat ${d.duration} ease-in-out infinite`,
             animationDelay: d.delay,
           }}

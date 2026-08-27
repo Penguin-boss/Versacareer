@@ -17,8 +17,11 @@ export default function NotFound() {
       variants={fadeOnly} 
       className="min-h-screen bg-bg flex flex-col items-center justify-center p-6"
     >
-      <motion.div variants={fadeSlideUp} className="max-w-md w-full text-center flex flex-col items-center">
-        <div className="h-16 w-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
+      <motion.div variants={fadeSlideUp} className="max-w-md w-full text-center flex flex-col items-center relative z-10">
+        <div className="mb-8 flex justify-center">
+          <span className="diamond-accent-lg" />
+        </div>
+        <div className="h-16 w-16 rounded-full bg-primary-soft text-primary flex items-center justify-center mb-6">
           <MapPinOff className="h-8 w-8" />
         </div>
         

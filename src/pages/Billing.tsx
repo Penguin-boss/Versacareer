@@ -169,15 +169,16 @@ export default function Billing() {
 
         {/* Pro+ */}
         <PlanCard
-          icon={<Sparkles className="h-5 w-5 text-primary" />}
+          icon={<Sparkles className="h-5 w-5 text-accent" />}
           name="Pro+"
           price={billing === 'monthly' ? `₹${PLAN_PRICING.PRO_PLUS.monthly}` : `₹${PLAN_PRICING.PRO_PLUS.yearly}`}
           period={billing === 'monthly' ? '/mo' : '/yr'}
           badge="BEST VALUE"
+          highlight
           features={PRO_PLUS_FEATURES}
           cta={isCurrent('PRO_PLUS')
             ? <div className="text-center text-sm text-success py-2.5 border border-success/30 rounded-[2px] bg-success/5">Active — thank you!</div>
-            : <button onClick={() => handleUpgrade('PRO_PLUS')} className="btn-primary w-full"><Sparkles className="h-4 w-4" /> Go Pro+</button>}
+            : <button onClick={() => handleUpgrade('PRO_PLUS')} className="btn-accent w-full"><Sparkles className="h-4 w-4" /> Go Pro+</button>}
         />
 
         {/* Founder Pass */}
@@ -258,7 +259,7 @@ function PlanCard({
   highlight?: boolean
 }) {
   return (
-    <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'border-primary/40 shadow-glow' : ''}`}>
+    <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'card-accent shadow-glow' : ''}`}>
       {badge && <div className="absolute -top-3 right-5 badge bg-primary text-white border border-primary/20">{badge}</div>}
       <div className="flex items-center gap-2 mb-1">
         {icon}

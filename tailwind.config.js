@@ -5,10 +5,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: { DEFAULT: 'rgb(var(--color-bg) / <alpha-value>)', soft: 'rgb(var(--color-bg-soft) / <alpha-value>)', card: 'rgb(var(--color-card) / <alpha-value>)', elev: 'rgb(var(--color-elev) / <alpha-value>)' },
-        border: { DEFAULT: 'rgb(var(--color-border) / <alpha-value>)', soft: 'rgb(var(--color-border-soft) / <alpha-value>)' },
-        text: { DEFAULT: 'rgb(var(--color-text) / <alpha-value>)', muted: 'rgb(var(--color-text-muted) / <alpha-value>)', faint: 'rgb(var(--color-text-faint) / <alpha-value>)' },
-        primary: { DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)', hover: 'rgb(var(--color-primary-hover) / <alpha-value>)', deep: 'rgb(var(--color-primary-deep) / <alpha-value>)' },
+        bg: {
+          DEFAULT: 'rgb(var(--color-bg) / <alpha-value>)',
+          soft: 'rgb(var(--color-bg-soft) / <alpha-value>)',
+          card: 'rgb(var(--color-card) / <alpha-value>)',
+          elev: 'rgb(var(--color-elev) / <alpha-value>)',
+        },
+        border: {
+          DEFAULT: 'rgb(var(--color-border) / <alpha-value>)',
+          soft: 'rgb(var(--color-border-soft) / <alpha-value>)',
+        },
+        text: {
+          DEFAULT: 'rgb(var(--color-text) / <alpha-value>)',
+          muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
+          faint: 'rgb(var(--color-text-faint) / <alpha-value>)',
+        },
+        primary: {
+          DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+          hover: 'rgb(var(--color-primary-hover) / <alpha-value>)',
+          deep: 'rgb(var(--color-primary-deep) / <alpha-value>)',
+          soft: 'rgb(var(--color-primary-soft) / <alpha-value>)',
+        },
+        accent: {
+          DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
+          soft: 'rgb(var(--color-accent-soft) / <alpha-value>)',
+        },
+        warm: {
+          DEFAULT: 'rgb(var(--color-warm) / <alpha-value>)',
+        },
         success: { DEFAULT: 'rgb(var(--color-success) / <alpha-value>)' },
         warning: { DEFAULT: 'rgb(var(--color-warning) / <alpha-value>)' },
         error: { DEFAULT: 'rgb(var(--color-error) / <alpha-value>)' },
@@ -25,9 +49,10 @@ export default {
         '2xl': '4px',
       },
       boxShadow: {
-        card: '0 1px 3px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02)',
-        glow: '0 0 24px rgba(46,94,255,0.20)',
-        primary: '0 0 12px rgba(46,94,255,0.14)',
+        card: '0 1px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.02)',
+        glow: '0 0 24px rgba(91,127,204,0.20)',
+        primary: '0 0 12px rgba(91,127,204,0.14)',
+        accent: '0 0 16px rgba(155,142,196,0.15)',
       },
       animation: {
         'fade-in': 'fadeIn 0.4s ease-out',

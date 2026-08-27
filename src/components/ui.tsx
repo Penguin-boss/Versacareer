@@ -18,8 +18,9 @@ export function LoadingState({ label = 'Loading…' }: { label?: string }) {
 export function EmptyState({ icon: Icon, title, description, action }: { icon: any; title: string; description: string; action?: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center text-center py-16 px-4">
-      <div className="h-14 w-14 rounded-full bg-bg-elev flex items-center justify-center mb-4">
+      <div className="h-14 w-14 rounded-full bg-bg-elev flex items-center justify-center mb-4 relative">
         <Icon className="h-7 w-7 text-text-faint" />
+        <span className="diamond-accent absolute -top-1 -right-1" />
       </div>
       <h3 className="text-base font-medium mb-1.5">{title}</h3>
       <p className="text-text-muted text-sm max-w-sm mb-5">{description}</p>
@@ -97,8 +98,8 @@ export function AnimatedProgress({ value, className = '', barClassName = '' }: {
   return (
     <div className={`h-2.5 rounded-[2px] bg-bg-elev overflow-hidden ${className}`}>
       <div
-        className={`h-full bg-success rounded-[2px] ${barClassName}`}
-        style={{ width: `${width}%`, transition: 'width 0.7s cubic-bezier(0.22, 1, 0.36, 1)' }}
+        className={`h-full rounded-[2px] ${barClassName}`}
+        style={{ width: `${width}%`, background: 'linear-gradient(90deg, rgb(var(--color-primary)), rgb(var(--color-accent)))', transition: 'width 0.7s cubic-bezier(0.22, 1, 0.36, 1)' }}
       />
     </div>
   )

@@ -92,9 +92,9 @@ export default function Roadmap() {
       <PageHeader title="Career Roadmap" subtitle="A week-by-week plan to close your gaps. Progress is saved across devices." icon={Map} />
 
       {milestones.length > 0 && (
-        <motion.div variants={fadeSlideUp} className="card p-5 mb-6 card-hover">
+        <motion.div variants={fadeSlideUp} className="card card-accent p-5 mb-6 card-hover">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-text-muted">Progress</span>
+            <span className="text-sm text-text-muted flex items-center gap-2"><span className="diamond-accent" /> Progress</span>
             <span className="text-sm font-medium">{completedCount} / {milestones.length} milestones</span>
           </div>
           <div className="h-2 rounded-full bg-bg-elev overflow-hidden">
@@ -115,7 +115,7 @@ export default function Roadmap() {
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-faint pointer-events-none" />
           </div>
-          <button onClick={generate} disabled={generating} className="btn-primary whitespace-nowrap">
+          <button onClick={generate} disabled={generating} className="btn-accent whitespace-nowrap">
             {generating ? <><RefreshCw className="h-4 w-4 animate-spin" /> Generating…</> : milestones.length ? 'Regenerate roadmap' : 'Generate roadmap'}
           </button>
         </div>
@@ -125,7 +125,11 @@ export default function Roadmap() {
         <motion.div variants={staggerContainer(80)} initial="hidden" animate="visible" className="max-w-2xl mx-auto text-center py-12">
           <EmptyIllustration maxWidth={360} />
           <motion.div variants={fadeSlideUp} transition={{ delay: 0.25 }} className="mt-8">
-            <h2 className="text-2xl font-semibold mb-3">No roadmap yet</h2>
+            <h2 className="text-2xl font-semibold mb-3 flex items-center justify-center gap-3">
+              <span className="diamond-accent" />
+              No roadmap yet
+              <span className="diamond-accent" />
+            </h2>
             <p className="text-text-muted mb-6 max-w-md mx-auto">
               Pick a target career and generate your personalized week-by-week plan.
             </p>
@@ -154,7 +158,7 @@ export default function Roadmap() {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="badge bg-bg-elev text-text-muted">Week {m.week}</span>
-                          {isInProgress && <span className="badge bg-primary/10 text-primary border border-primary/20">In progress</span>}
+                          {isInProgress && <span className="badge bg-primary-soft text-primary border border-primary/20">In progress</span>}
                           {isCompleted && <span className="badge bg-success/10 text-success border border-success/20">Completed</span>}
                         </div>
                         <h3 className="font-medium mb-1">{m.title}</h3>

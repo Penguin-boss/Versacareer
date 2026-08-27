@@ -120,7 +120,7 @@ export default function Upload() {
         />
         {file ? (
           <div className="flex items-center justify-center gap-3">
-            <div className="h-12 w-12 rounded-[2px] bg-primary/10 text-primary flex items-center justify-center">
+            <div className="h-12 w-12 rounded-[2px] bg-primary-soft text-primary flex items-center justify-center diamond-accent">
               <FileText className="h-6 w-6" />
             </div>
             <div className="text-left">
@@ -137,7 +137,7 @@ export default function Upload() {
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3">
-            <div className="h-14 w-14 rounded-full bg-bg-elev flex items-center justify-center">
+            <div className="h-14 w-14 rounded-full bg-bg-elev flex items-center justify-center diamond-accent-lg">
               <UploadCloud className="h-7 w-7 text-text-faint" />
             </div>
             <div>
@@ -172,7 +172,7 @@ export default function Upload() {
         <p className="text-xs text-text-faint flex items-center gap-1.5">
           <Sparkles className="h-3.5 w-3.5" /> Powered by Gemini 2.5 Flash · processed server-side
         </p>
-        <button onClick={analyze} disabled={!file || loading} className="btn-primary">
+        <button onClick={analyze} disabled={!file || loading} className="btn-accent">
           {loading ? 'Analyzing…' : 'Analyze resume'}
         </button>
       </div>

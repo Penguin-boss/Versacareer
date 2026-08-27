@@ -17,8 +17,8 @@ const TYPE_LABELS: Record<ResourceType, string> = {
 }
 
 const TYPE_COLORS: Record<ResourceType, string> = {
-  course: 'bg-primary/10 text-primary border-primary/20',
-  book: 'bg-primary/10 text-primary border-primary/20',
+  course: 'bg-primary-soft text-primary border-primary/20',
+  book: 'bg-accent-soft text-accent border-accent/20',
   youtube: 'bg-error/10 text-error border-error/20',
   github: 'bg-text-muted/10 text-text-muted border-text-muted/20',
   roadmap: 'bg-success/10 text-success border-success/20',
@@ -69,7 +69,7 @@ export default function Resources() {
       <PageHeader title="Resource Library" subtitle="Curated free courses, books, GitHub projects, and learning roadmaps." icon={BookOpen} />
 
       {/* Filters */}
-      <motion.div variants={fadeSlideUp} className="card p-4 mb-6">
+      <motion.div variants={fadeSlideUp} className="card card-accent p-4 mb-6">
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-faint" />
@@ -111,7 +111,7 @@ export default function Resources() {
                 <span className={`badge border ${TYPE_COLORS[r.type]}`}>{TYPE_LABELS[r.type]}</span>
                 <ExternalLink className="h-4 w-4 text-text-faint group-hover:text-primary transition-colors" />
               </div>
-              <h3 className="font-medium mb-2 line-clamp-2">{r.title}</h3>
+              <h3 className="font-medium mb-2 line-clamp-2 flex items-start gap-2"><span className="diamond-accent mt-1 shrink-0" />{r.title}</h3>
               <div className="text-xs text-text-faint mb-3">{r.category}</div>
               {r.skill_tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-auto">

@@ -50,7 +50,7 @@ export default function Onboarding() {
       <motion.div initial="hidden" animate="visible" variants={fadeOnly} className="w-full max-w-xl">
         <div className="text-center mb-8">
           <img src="/VersaCareer_AI_Logo.png" alt="" className="h-14 w-14 rounded-[3px] mx-auto mb-4" />
-          <h1 className="text-2xl font-semibold">Welcome to VersaCareer AI</h1>
+          <h1 className="text-2xl font-semibold flex items-center justify-center gap-2"><div className="diamond-accent-lg"></div>Welcome to VersaCareer AI</h1>
           <p className="text-text-muted text-sm mt-1">Tell us a bit about yourself so we can personalize your experience.</p>
         </div>
 
@@ -64,7 +64,7 @@ export default function Onboarding() {
                   onClick={() => toggleRole(r)}
                   className={`rounded-[2px] border px-3 py-2 text-sm transition-colors ${
                     targetRoles.includes(r)
-                      ? 'bg-primary/10 border-primary/40 text-text'
+                      ? 'bg-primary-soft border-primary/40 text-text'
                       : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'
                   }`}
                 >
@@ -84,7 +84,7 @@ export default function Onboarding() {
                   onClick={() => setExperienceLevel(e)}
                   className={`rounded-[2px] border px-3 py-2 text-sm transition-colors ${
                     experienceLevel === e
-                      ? 'bg-primary/10 border-primary/40 text-text'
+                      ? 'bg-primary-soft border-primary/40 text-text'
                       : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'
                   }`}
                 >
@@ -103,7 +103,7 @@ export default function Onboarding() {
                   onClick={() => setWorkStyle(w)}
                   className={`rounded-[2px] border px-3 py-2 text-sm transition-colors ${
                     workStyle === w
-                      ? 'bg-primary/10 border-primary/40 text-text'
+                      ? 'bg-primary-soft border-primary/40 text-text'
                       : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'
                   }`}
                 >

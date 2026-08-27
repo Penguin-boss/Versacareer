@@ -9,16 +9,14 @@ export default function Privacy() {
     <div className="min-h-screen bg-bg relative overflow-hidden">
       <AmbientBackground />
       {/* Nav */}
-      <header className="border-b border-border">
+      <header className="border-b border-border relative z-10 bg-bg/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src="/VersaCareer_AI_Logo.png" alt="VersaCareer AI" className="h-9 w-9 rounded-[2px]" />
-            <div>
-              <div className="font-semibold leading-tight">VersaCareer AI</div>
-              <div className="text-[11px] text-text-faint">by Pragma</div>
-            </div>
+          <Link to="/" aria-label="VersaCareer AI home" className="inline-flex items-center">
+            <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png" alt="VersaCareer AI" className="h-9 w-auto max-w-[220px] object-contain" />
           </Link>
-          <Link to="/dashboard" className="btn-primary">Get started <ArrowRight className="h-4 w-4" /></Link>
+          <div className="flex items-center gap-3">
+            <Link to="/dashboard" className="btn-primary">Get started <ArrowRight className="h-4 w-4" /></Link>
+          </div>
         </div>
       </header>
 
@@ -200,9 +198,12 @@ export default function Privacy() {
         </div>
       </motion.section>
 
-      <footer className="border-t border-border relative z-10">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 text-center text-sm text-text-faint">
-          VersaCareer is a product of Pragma, the AI SaaS wing of Optimus, founded by Vadlamudi Sai Chanakya and Devella Sankeerth.
+      <footer className="border-t border-border relative z-10 bg-bg-soft">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 flex flex-col items-center gap-4 text-center text-sm text-text-faint">
+          <p>VersaCareer is a product of Pragma, the AI SaaS wing of Optimus, founded by Vadlamudi Sai Chanakya and Devella Sankeerth.</p>
+          <div className="flex items-center gap-2 text-xs text-text-faint/60">
+            <span className="diamond-accent" />
+          </div>
         </div>
       </footer>
     </div>

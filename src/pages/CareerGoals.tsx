@@ -101,11 +101,11 @@ export default function CareerGoals() {
     return (
       <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
         <PageHeader title="Career Goals" subtitle="Track your personal career goals and link them to roadmap milestones." icon={Target} />
-        <div className="card p-8 max-w-lg mx-auto text-center mt-8">
+        <div className="card card-accent p-8 max-w-lg mx-auto text-center mt-8">
           <Target className="h-12 w-12 text-text-faint mx-auto mb-4" />
           <h3 className="text-lg font-medium mb-2">Pro+ Feature</h3>
           <p className="text-text-muted text-sm mb-4">Career Goal Tracking is available on the Pro+ plan. Upgrade to set goals, track progress, and link them to your roadmap milestones.</p>
-          <a href="/billing" className="btn-primary inline-flex">Upgrade to Pro+</a>
+          <a href="/billing" className="btn-accent inline-flex">Upgrade to Pro+</a>
         </div>
       </motion.div>
     )
@@ -120,8 +120,8 @@ export default function CareerGoals() {
 
       <motion.div variants={staggerContainer(60)} initial="hidden" animate="visible" className="mt-6">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-text-muted">{goals.length} goal{goals.length !== 1 ? 's' : ''}</p>
-          <button onClick={() => setShowForm(!showForm)} className="btn-primary text-sm">
+          <p className="text-sm text-text-muted flex items-center gap-2"><span className="diamond-accent" /> {goals.length} goal{goals.length !== 1 ? 's' : ''}</p>
+          <button onClick={() => setShowForm(!showForm)} className="btn-accent text-sm">
             <Plus className="h-4 w-4" /> New goal
           </button>
         </div>
@@ -186,7 +186,7 @@ export default function CareerGoals() {
                         {linkedMilestone && (
                           <span className="flex items-center gap-1"><Flag className="h-3 w-3" /> Week {linkedMilestone.week}: {linkedMilestone.title}</span>
                         )}
-                        <span className={`px-2 py-0.5 rounded-full ${goal.status === 'COMPLETED' ? 'bg-success/10 text-success' : 'bg-primary/10 text-primary'}`}>
+                        <span className={`px-2 py-0.5 rounded-full ${goal.status === 'COMPLETED' ? 'bg-success/10 text-success' : 'bg-primary-soft text-primary'}`}>
                           {goal.status === 'COMPLETED' ? 'Completed' : 'In Progress'}
                         </span>
                       </div>

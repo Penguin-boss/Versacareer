@@ -153,7 +153,7 @@ export default function CareerDNA() {
         <PageHeader title="Career DNA" subtitle="A 21-question assessment that maps your traits across 7 dimensions and matches you to career archetypes." icon={Dna} />
         <div className="max-w-2xl mx-auto">
           <motion.div variants={fadeSlideUp} className="card p-8 text-center">
-            <div className="h-16 w-16 rounded-[2px] bg-primary-soft text-primary flex items-center justify-center mx-auto mb-6">
+            <div className="h-16 w-16 rounded-[2px] bg-accent-soft text-accent flex items-center justify-center mx-auto mb-6 diamond-accent-lg">
               <Dna className="h-8 w-8" />
             </div>
             <h2 className="font-display text-2xl font-semibold mb-3">Discover your career DNA</h2>
@@ -163,7 +163,7 @@ export default function CareerDNA() {
             <p className="text-sm text-text-faint mb-8">
               Takes about 4 minutes. Free for all plans. Unlimited retakes.
             </p>
-            <button onClick={startAssessment} className="btn-primary text-base px-6 py-3">
+            <button onClick={startAssessment} className="btn-accent text-base px-6 py-3">
               Start assessment <ArrowRight className="h-4 w-4" />
             </button>
           </motion.div>
@@ -250,11 +250,11 @@ export default function CareerDNA() {
                 <ArrowLeft className="h-4 w-4" /> Back
               </button>
               {isLast ? (
-                <button onClick={submit} disabled={!isAnswered || saving} className="btn-primary">
+                <button onClick={submit} disabled={!isAnswered || saving} className="btn-accent">
                   {saving ? 'Computing…' : 'See results'} <ArrowRight className="h-4 w-4" />
                 </button>
               ) : (
-                <button onClick={next} disabled={!isAnswered} className="btn-primary">
+                <button onClick={next} disabled={!isAnswered} className="btn-accent">
                   Next <ArrowRight className="h-4 w-4" />
                 </button>
               )}
@@ -303,7 +303,7 @@ function ResultsView({
       >
         {/* Left column — Trait Profile */}
         <motion.div variants={fadeSlideUp} className="card p-6 min-w-0">
-          <h3 className="font-display font-medium text-lg mb-4">Trait Profile</h3>
+          <h3 className="font-display font-medium text-lg mb-4 diamond-accent">Trait Profile</h3>
           <div style={{ width: '100%', height: 360 }}>
             <ResponsiveContainer>
               <RadarChart data={radarData} margin={{ top: 24, right: 48, bottom: 32, left: 48 }}>
@@ -312,8 +312,8 @@ function ResultsView({
                 <PolarRadiusAxis domain={[0, 100]} tick={{ fill: theme === 'dark' ? '#5B6472' : '#949EAC', fontSize: 9, fontFamily: 'IBM Plex Sans' }} stroke={theme === 'dark' ? '#1E2938' : '#E2E6EC'} />
                 <Radar
                   dataKey="value"
-                  stroke="#2E5EFF"
-                  fill="#2E5EFF"
+                  stroke="rgb(var(--color-primary))"
+                  fill="rgb(var(--color-primary))"
                   fillOpacity={0.25}
                   strokeWidth={2}
                 />
@@ -334,9 +334,9 @@ function ResultsView({
         </motion.div>
 
         {/* Right column — Career Matches */}
-        <motion.div variants={fadeSlideUp} className="card p-6 min-w-0">
+        <motion.div variants={fadeSlideUp} className="card p-6 min-w-0 card-accent">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display font-medium text-lg">Career Matches</h3>
+            <h3 className="font-display font-medium text-lg diamond-accent">Career Matches</h3>
             <button onClick={onRetake} className="btn-ghost text-sm">
               <RotateCcw className="h-4 w-4" /> Retake
             </button>
@@ -349,7 +349,7 @@ function ResultsView({
                 <div
                   key={match.career}
                   className={`rounded-[2px] border p-4 transition-all w-full min-w-0 ${
-                    isTop ? 'border-primary/40 bg-primary-soft' : 'border-border bg-bg-soft'
+                    isTop ? 'border-accent/40 bg-accent-soft' : 'border-border bg-bg-soft'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2 min-w-0">
@@ -375,7 +375,7 @@ function ResultsView({
                     <button
                       onClick={() => onSetTargetRole(match.career)}
                       disabled={settingRole || alreadyTarget}
-                      className="btn-primary w-full mt-3 text-sm"
+                      className="btn-accent w-full mt-3 text-sm"
                     >
                       {alreadyTarget ? (
                         <><Check className="h-4 w-4" /> Already your target role</>

@@ -105,10 +105,10 @@ export default function Mentor() {
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
           {messages.length === 0 && (
             <div className="text-center py-10">
-              <div className="h-14 w-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-4">
+              <div className="h-14 w-14 rounded-full bg-accent-soft text-accent flex items-center justify-center mx-auto mb-4">
                 <PulsingMentorIcon className="h-7 w-7" />
               </div>
-              <h3 className="font-medium mb-1">Ask your AI mentor anything</h3>
+              <h3 className="font-medium mb-1 flex items-center justify-center gap-2"><span className="diamond-accent" /> Ask your AI mentor anything <span className="diamond-accent" /></h3>
               <p className="text-sm text-text-muted mb-6 max-w-md mx-auto">
                 Your mentor knows your latest resume score, skills, and gaps. Try one of these:
               </p>
@@ -163,7 +163,7 @@ export default function Mentor() {
                 className="input flex-1"
                 disabled={sending}
               />
-              <button type="submit" disabled={sending || !input.trim()} className="btn-primary" aria-label="Send message">
+              <button type="submit" disabled={sending || !input.trim()} className="btn-accent" aria-label="Send message">
                 <Send className="h-4 w-4" />
               </button>
             </form>

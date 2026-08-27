@@ -121,10 +121,10 @@ export default function Dashboard() {
               <div style={{ width: '100%', height: 240 }}>
                 <ResponsiveContainer>
                   <RadarChart data={radarData}>
-                    <PolarGrid stroke={theme === 'dark' ? '#1E2938' : '#E2E6EC'} />
-                    <PolarAngleAxis dataKey="category" tick={{ fill: theme === 'dark' ? '#949EAC' : '#5B6472', fontSize: 11 }} />
-                    <PolarRadiusAxis domain={[0, 100]} tick={{ fill: theme === 'dark' ? '#5B6472' : '#949EAC', fontSize: 10 }} stroke={theme === 'dark' ? '#1E2938' : '#E2E6EC'} />
-                    <Radar dataKey="value" stroke="#2E5EFF" fill="#2E5EFF" fillOpacity={0.35} animationDuration={600} animationBegin={200} />
+                    <PolarGrid stroke="rgb(var(--color-border))" />
+                    <PolarAngleAxis dataKey="category" tick={{ fill: 'rgb(var(--color-text-muted))', fontSize: 11 }} />
+                    <PolarRadiusAxis domain={[0, 100]} tick={{ fill: 'rgb(var(--color-text-faint))', fontSize: 10 }} stroke="rgb(var(--color-border))" />
+                    <Radar dataKey="value" stroke="rgb(var(--color-primary))" fill="rgb(var(--color-primary))" fillOpacity={0.35} animationDuration={600} animationBegin={200} />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>
@@ -177,7 +177,7 @@ export default function Dashboard() {
                 {history.slice(0, 5).map((h) => (
                   <Link key={h.id} to="/analysis" className="flex items-center justify-between rounded-[2px] border border-border bg-bg-soft p-3 hover:border-border-soft transition-colors">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="h-9 w-9 rounded-[2px] bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                      <div className="h-9 w-9 rounded-[2px] bg-primary-soft text-primary flex items-center justify-center flex-shrink-0">
                         <FileText className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">

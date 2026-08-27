@@ -115,6 +115,7 @@ export default function Admin() {
               tab === t.id ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text'
             }`}
           >
+            {tab === t.id && <div className="diamond-accent" />}
             <t.icon className="h-4 w-4" /> {t.label}
           </button>
         ))}
@@ -291,7 +292,7 @@ export default function Admin() {
                   ) : aiLogs.map((l) => (
                     <tr key={l.id} className="border-b border-border last:border-0">
                       <td className="p-3 text-xs">{l.email}</td>
-                      <td className="p-3"><span className={`badge ${l.service === 'gemini' ? 'bg-primary/10 text-primary' : 'bg-primary/10 text-primary'}`}>{l.service}</span></td>
+                      <td className="p-3"><span className={`badge ${l.service === 'gemini' ? 'bg-primary-soft text-primary' : 'bg-primary-soft text-primary'}`}>{l.service}</span></td>
                       <td className="p-3 text-xs">{l.feature}</td>
                       <td className="p-3 text-right text-xs">{l.tokens_in} / {l.tokens_out}</td>
                       <td className="p-3 text-right text-xs">${Number(l.estimated_cost_usd).toFixed(4)}</td>

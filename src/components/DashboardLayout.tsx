@@ -59,7 +59,7 @@ export default function DashboardLayout() {
               to={n.to}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-[2px] px-3 py-2.5 text-sm transition-colors duration-150 ${
-                  isActive ? 'bg-primary-soft text-primary border-l-2 border-primary' : 'text-text-muted hover:text-text hover:bg-bg-elev border-l-2 border-transparent'
+                  isActive ? 'bg-primary-soft text-primary border-l-2 border-primary shadow-[inset_2px_0_0_rgb(var(--color-accent))]' : 'text-text-muted hover:text-text hover:bg-bg-elev border-l-2 border-transparent'
                 }`
               }
             >
@@ -74,7 +74,7 @@ export default function DashboardLayout() {
                 to="/admin"
                 className={({ isActive }) =>
                   `flex items-center gap-3 rounded-[2px] px-3 py-2.5 text-sm transition-colors duration-150 ${
-                    isActive ? 'bg-primary/10 text-primary border-l-2 border-primary' : 'text-text-muted hover:text-text hover:bg-bg-elev border-l-2 border-transparent'
+                    isActive ? 'bg-primary/10 text-primary border-l-2 border-primary shadow-[inset_2px_0_0_rgb(var(--color-accent))]' : 'text-text-muted hover:text-text hover:bg-bg-elev border-l-2 border-transparent'
                   }`
                 }
               >

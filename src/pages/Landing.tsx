@@ -120,12 +120,12 @@ function AnnotatedResume() {
 export default function Landing() {
   return (
     <div className="min-h-screen bg-bg relative overflow-hidden">
-      {/* Subtle ambient glow */}
+      {/* Subtle ambient glow — brand palette */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse at 70% 30%, rgba(46,94,255,0.06) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(46,94,255,0.04) 0%, transparent 50%)',
+            'radial-gradient(ellipse at 70% 30%, rgba(91,127,204,0.06) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(155,142,196,0.04) 0%, transparent 50%)',
         }}
         aria-hidden="true"
       />
@@ -246,6 +246,13 @@ export default function Landing() {
         </motion.div>
       </motion.section>
 
+      {/* Diamond separator */}
+      <div className="max-w-6xl mx-auto px-4 md:px-8 relative z-10">
+        <div className="diamond-separator">
+          <span className="brand-star" />
+        </div>
+      </div>
+
       {/* Trust / architecture */}
       <motion.section
         className="max-w-6xl mx-auto px-4 md:px-8 py-16 border-t border-border relative z-10"
@@ -293,10 +300,14 @@ export default function Landing() {
         </div>
       </motion.section>
 
-      <footer className="border-t border-border relative z-10 bg-[#0A0A08]">
+      <footer className="border-t border-border relative z-10 bg-bg-soft">
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 flex flex-col items-center gap-4 text-center text-sm text-text-faint">
           <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png" alt="VersaCareer" className="h-8 w-auto max-w-[200px] object-contain" />
           <p>VersaCareer is a product of Pragma, the AI SaaS wing of Optimus, founded by Vadlamudi Sai Chanakya and Devella Sankeerth.</p>
+          <div className="flex items-center gap-2 text-xs text-text-faint/60">
+            <span className="diamond-accent" />
+            <span>Analyze. Upskill. Succeed.</span>
+          </div>
         </div>
       </footer>
     </div>
