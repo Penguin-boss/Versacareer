@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useAuthStore } from './lib/authStore'
 import Landing from './pages/Landing'
 import Pricing from './pages/Pricing'
+import Privacy from './pages/Privacy'
 import AuthPage from './pages/Auth'
 import AuthCallback from './pages/AuthCallback'
 import Onboarding from './pages/Onboarding'
@@ -53,6 +54,7 @@ export default function App() {
     <Routes location={location}>
       <Route path="/" element={<Landing />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/privacy" element={<Privacy />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route path="/onboarding" element={<Protected><Onboarding /></Protected>} />
