@@ -11,7 +11,7 @@
 
 :root {
   /* ── Backgrounds ─────────────────────────────────────── */
-  --color-bg: 10 14 22;              /* #0A0E16  deep navy base */
+  --color-bg: 10 14 20;              /* #0A0E14  deep navy base (matches image assets) */
   --color-bg-soft: 14 20 36;         /* #0E1424  sidebar / sub-sections */
   --color-card: 16 23 40;            /* #101728  card surfaces */
   --color-elev: 22 31 52;            /* #161F34  modals, popovers */

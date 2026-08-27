@@ -203,7 +203,7 @@ export default function Dashboard() {
         <motion.div variants={staggerContainer(50)} initial="hidden" animate="visible" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {quickLinks.map((q) => (
             <motion.div key={q.to} variants={fadeSlideUp}>
-            <Link to={q.to} className="card p-4 hover:border-primary/30 transition-colors group">
+            <Link to={q.to} className="card block p-4 hover:border-primary/30 transition-colors group">
               <div className="h-9 w-9 rounded-[2px] bg-bg-elev text-primary flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
                 <q.icon className="h-4 w-4" />
               </div>
