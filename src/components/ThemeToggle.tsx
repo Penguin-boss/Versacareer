@@ -1,43 +1,70 @@
-import { Sun, Moon } from 'lucide-react'
-import { useTheme } from '../lib/useTheme'
+import { Sun, Moon, Monitor } from 'lucide-react'
+import { useTheme, Theme } from '../lib/useTheme'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useReducedMotion } from '../lib/useReducedMotion'
 
 export function ThemeToggle({ className = '' }: { className?: string }) {
-  const { theme, toggleTheme } = useTheme()
-  const reduced = useReducedMotion()
+  const { theme, setTheme } = useTheme()
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const options: { value: Theme, label: string, icon: JSX.Element }[] = [
+    { value: 'light', label: 'Light', icon: <Sun className="h-4 w-4" /> },
+    { value: 'dark', label: 'Dark', icon: <Moon className="h-4 w-4" /> },
+    { value: 'system', label: 'System', icon: <Monitor className="h-4 w-4" /> },
+  ]
+
+  const currentIcon = options.find(o => o.value === theme)?.icon || <Sun className="h-4 w-4" />
 
   return (
-    <button
-      onClick={toggleTheme}
-      className={`btn-ghost p-2 h-9 w-9 rounded-full flex items-center justify-center overflow-hidden relative ${className}`}
-      aria-label="Toggle theme"
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        {theme === 'dark' ? (
+    <div className={`relative ${className}`} ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="btn-ghost p-2 h-9 w-9 rounded-full flex items-center justify-center overflow-hidden"
+        aria-label="Toggle theme"
+      >
+        {currentIcon}
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
           <motion.div
-            key="moon"
-            initial={reduced ? { opacity: 1 } : { opacity: 0, rotate: -90, scale: 0.5 }}
-            animate={reduced ? { opacity: 1 } : { opacity: 1, rotate: 0, scale: 1 }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, rotate: 90, scale: 0.5 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="absolute right-0 mt-2 w-36 bg-surface border border-border rounded-lg shadow-xl overflow-hidden z-50"
           >
-            <Moon className="h-4 w-4" />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="sun"
-            initial={reduced ? { opacity: 1 } : { opacity: 0, rotate: 90, scale: 0.5 }}
-            animate={reduced ? { opacity: 1 } : { opacity: 1, rotate: 0, scale: 1 }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, rotate: -90, scale: 0.5 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <Sun className="h-4 w-4" />
+            <div className="py-1">
+              {options.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => {
+                    setTheme(option.value)
+                    setIsOpen(false)
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2 text-sm text-left transition-colors hover:bg-surface-2 ${
+                    theme === option.value ? 'text-primary font-medium' : 'text-text-muted hover:text-text'
+                  }`}
+                >
+                  {option.icon}
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </button>
+    </div>
   )
 }

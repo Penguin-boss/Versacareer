@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../lib/authStore';
 import { FullLoader } from '../components/DashboardLayout';
+import { ThemeToggle } from '../components/ThemeToggle';
 import './Landing.css';
 
 export default function Landing() {
@@ -65,9 +66,7 @@ export default function Landing() {
             <span>VersaCareer</span>
           </Link>
           <div className="nav-cta">
-            <button className="theme-toggle" aria-label="Toggle theme">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            </button>
+            <ThemeToggle />
             <Link className="nav-signin" to="/auth?mode=signin">Sign in</Link>
             <Link className="btn btn-primary btn-sm" to="/auth?mode=signup">Get started <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></Link>
           </div>
