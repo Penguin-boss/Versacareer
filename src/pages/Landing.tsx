@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../lib/authStore';
+import { FullLoader } from '../components/DashboardLayout';
 import './Landing.css';
 
 export default function Landing() {
-  const { user } = useAuthStore();
+  const { user, loading } = useAuthStore();
 
   useEffect(() => {
+    if (loading) return;
     const scSteps = document.querySelectorAll('.sc-step');
     const scPanels = document.querySelectorAll('.sc-content');
     const scDots = document.querySelectorAll('.sc-dot');
@@ -42,7 +44,11 @@ export default function Landing() {
     return () => {
       scObserver.disconnect();
     };
-  }, []);
+  }, [loading]);
+
+  if (loading) {
+    return <FullLoader />;
+  }
 
   if (user) {
     return <Navigate to="/dashboard" replace />;

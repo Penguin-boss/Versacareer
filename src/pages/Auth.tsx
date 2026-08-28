@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams, Navigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
 import { Mail, Lock, User as UserIcon, MailCheck, RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useMotionVariants } from '../lib/motionVariants'
+import { useAuthStore } from '../lib/authStore'
+import { FullLoader } from '../components/DashboardLayout'
 
 import './Auth.css'
 
@@ -47,10 +49,14 @@ const OAUTH_PROVIDERS: { provider: OAuthProvider; label: string; Icon: (p: { cla
 const RESEND_COOLDOWN_SECONDS = 60
 
 export default function AuthPage() {
+  const { user, loading: authLoading } = useAuthStore()
   const [searchParams, setSearchParams] = useSearchParams()
   const queryMode = searchParams.get('mode')
   const [localMode, setLocalMode] = useState<Mode>(queryMode === 'signin' ? 'signin' : 'signup')
   const mode: Mode = localMode
+
+  if (authLoading) return <FullLoader />
+  if (user) return <Navigate to="/dashboard" replace />
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -170,7 +176,7 @@ export default function AuthPage() {
           return
         }
         toast.success('Welcome to VersaCareer!')
-        navigate('/onboarding')
+        navigate('/dashboard')
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) {
