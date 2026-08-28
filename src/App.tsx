@@ -28,8 +28,9 @@ function Protected({ children }: { children: JSX.Element }) {
   const { user, loading, profile } = useAuthStore()
   if (loading) return <FullLoader />
   if (!user) return <Navigate to="/" replace />
-  // First login with no career prefs → onboarding (but allow skip)
-  if (profile && !profile.experience_level && !profile.preferred_work_style && (profile.target_roles ?? []).length === 0 && window.location.pathname !== '/onboarding' && !sessionStorage.getItem('onboarded')) {
+  // First login or missing career prefs -> onboarding (but allow skip)
+  const needsOnboarding = profile && (!profile.experience_level || !profile.preferred_work_style || !(profile.target_roles && profile.target_roles.length > 0))
+  if (needsOnboarding && window.location.pathname !== '/onboarding' && !sessionStorage.getItem('onboarded')) {
     return <Navigate to="/onboarding" replace />
   }
   return children

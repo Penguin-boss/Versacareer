@@ -21,7 +21,7 @@ export default function AuthCallback() {
       if (event === 'SIGNED_IN' && session) {
         setState('success')
         // Give the user a moment to see the success state, then redirect
-        setTimeout(() => navigate('/onboarding', { replace: true }), 1500)
+        setTimeout(() => navigate('/dashboard', { replace: true }), 1500)
       } else if (event === 'TOKEN_REFRESHED') {
         // already confirmed, send to dashboard
         setState('success')
