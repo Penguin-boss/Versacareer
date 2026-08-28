@@ -1,316 +1,215 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { FileText, Dna, Target, Map, MessageSquare, ArrowRight, Lock, Server, Shield, CircleCheck as CheckCircle2 } from 'lucide-react'
-import { fadeSlideUp, staggerContainer, fadeOnly } from '../lib/motionVariants'
-
-import { ThemeToggle } from '../components/ThemeToggle'
-
-const features = [
-  { icon: FileText, title: 'AI Resume Analyzer', desc: 'Upload your resume and get ATS, technical, market, and project scores with actionable suggestions.' },
-  { icon: Dna, title: 'Career DNA', desc: 'A short assessment that reveals your interests, strengths, and suggested career paths.' },
-  { icon: Target, title: 'Skill Gap Analysis', desc: 'See exactly which skills you are missing for your target role, prioritized by impact.' },
-  { icon: Map, title: 'Personalized Roadmap', desc: 'A week-by-week plan to close your gaps, with progress that syncs across devices.' },
-  { icon: MessageSquare, title: 'AI Career Mentor', desc: 'Chat with an AI mentor that knows your scores, skills, and gaps — gives direct, practical advice.' },
-]
-
-function AnnotatedResume() {
-  const scores = [
-    { label: 'ATS', value: 78, color: 'text-primary' },
-    { label: 'TECH', value: 65, color: 'text-primary' },
-    { label: 'MKT', value: 82, color: 'text-primary' },
-    { label: 'PROJ', value: 71, color: 'text-primary' },
-  ]
-
-  return (
-    <div className="relative w-full max-w-md mx-auto">
-      {/* Resume paper */}
-      <div className="relative bg-[#f5f1e8] text-[#0A0E14] rounded-[3px] shadow-2xl p-7 pb-10 transform rotate-[-1.5deg] transition-transform duration-500 hover:rotate-0">
-        {/* Paper texture lines */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/30 to-primary/10 rounded-t-[3px]" />
-
-        {/* Header */}
-        <div className="border-b border-[#d4cdb8] pb-3 mb-4">
-          <div className="font-display text-lg font-semibold text-[#0A0E14]">Jane Doe</div>
-          <div className="text-[10px] text-[#6b6558] font-mono mt-0.5">Senior Frontend Engineer · San Francisco</div>
-        </div>
-
-        {/* Experience lines */}
-        <div className="space-y-2.5">
-          <div>
-            <div className="h-2 w-3/5 bg-[#d4cdb8] rounded-[1px]" />
-            <div className="h-1.5 w-full bg-[#e0d9c6] rounded-[1px] mt-1.5" />
-            <div className="h-1.5 w-4/5 bg-[#e0d9c6] rounded-[1px] mt-1" />
-          </div>
-          <div className="pt-1">
-            <div className="h-2 w-2/5 bg-[#d4cdb8] rounded-[1px]" />
-            <div className="h-1.5 w-full bg-[#e0d9c6] rounded-[1px] mt-1.5" />
-            <div className="h-1.5 w-3/4 bg-[#e0d9c6] rounded-[1px] mt-1" />
-          </div>
-          <div className="pt-1">
-            <div className="h-2 w-1/2 bg-[#d4cdb8] rounded-[1px]" />
-            <div className="h-1.5 w-full bg-[#e0d9c6] rounded-[1px] mt-1.5" />
-          </div>
-        </div>
-
-        {/* Annotation marks - red pencil style */}
-        <div className="absolute top-[52px] right-3 flex flex-col items-end gap-1">
-          <div className="flex items-center gap-1">
-            <span className="text-[9px] font-mono text-error font-semibold">weak verb</span>
-            <div className="w-4 h-0.5 bg-error" />
-          </div>
-        </div>
-        <div className="absolute top-[100px] right-3 flex items-center gap-1">
-          <span className="text-[9px] font-mono text-error font-semibold">add metrics</span>
-          <div className="w-3 h-0.5 bg-error" />
-        </div>
-
-        {/* Circled keyword */}
-        <div className="absolute top-[145px] left-6">
-          <div className="absolute -inset-1 border-2 border-primary rounded-full opacity-70" />
-          <div className="h-2 w-16 bg-[#d4cdb8] rounded-[1px] relative" />
-        </div>
-      </div>
-
-      {/* Score badges floating around resume */}
-      <div className="absolute -top-4 -right-4 flex flex-col gap-2">
-        {scores.slice(0, 2).map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 + i * 0.1 }}
-            className="flex items-center gap-2 bg-bg-card border border-border rounded-[2px] px-3 py-2 shadow-card"
-          >
-            <span className="text-[10px] font-mono text-text-faint">{s.label}</span>
-            <span className={`text-lg font-display font-bold ${s.color}`}>{s.value}</span>
-          </motion.div>
-        ))}
-      </div>
-      <div className="absolute -bottom-2 -left-4 flex flex-col gap-2">
-        {scores.slice(2).map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 + i * 0.1 }}
-            className="flex items-center gap-2 bg-bg-card border border-border rounded-[2px] px-3 py-2 shadow-card"
-          >
-            <span className="text-[10px] font-mono text-text-faint">{s.label}</span>
-            <span className={`text-lg font-display font-bold ${s.color}`}>{s.value}</span>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Margin note */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
-        className="absolute -bottom-12 right-8 flex items-start gap-1.5"
-      >
-        <div className="w-0.5 h-8 bg-primary/40" />
-        <div className="text-[10px] font-mono text-primary/80 leading-tight max-w-[120px]">
-          Overall readiness<br />improved 23% after<br />3 iterations
-        </div>
-      </motion.div>
-    </div>
-  )
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './Landing.css';
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-bg relative overflow-hidden">
-      {/* Subtle ambient glow — brand palette */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at 70% 30%, rgba(91,127,204,0.06) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(155,142,196,0.04) 0%, transparent 50%)',
-        }}
-        aria-hidden="true"
-      />
+    <div className="landing-page-root">
+      <div className="bg-grid"></div>
 
-      {/* Nav */}
-      <header className="border-b border-border relative z-10 bg-bg/80 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-          <Link to="/" aria-label="VersaCareer AI home" className="inline-flex items-center">
-            <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png" alt="VersaCareer AI" className="h-9 w-auto max-w-[220px] object-contain" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <Link to="/auth?mode=signin" className="btn-ghost text-sm hidden sm:inline-flex">Sign in</Link>
-            <Link to="/auth?mode=signup" className="btn-primary">Get started <ArrowRight className="h-4 w-4" /></Link>
+      <header>
+        <nav>
+          <div className="logo">
+            <img className="logo-mark" src="data:image/png;base64,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" alt="VersaCareer" />VersaCareer
           </div>
-        </div>
+          <div className="nav-cta">
+            <button className="theme-toggle" aria-label="Toggle theme">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <Link className="nav-signin" to="/auth?mode=signin">Sign in</Link>
+            <Link className="btn btn-primary btn-sm" to="/auth?mode=signup">Get started <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></Link>
+          </div>
+        </nav>
       </header>
 
-      {/* Hero */}
-      <section className="relative max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-20 z-10">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left: copy */}
-          <div>
-            <motion.img
-              src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png"
-              alt="VersaCareer AI"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="h-20 w-auto max-w-full object-contain mb-7"
-            />
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-[2px] border border-border bg-bg-soft px-3 py-1 text-xs text-text-muted mb-6"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse-soft" />
-              <span className="font-mono">CAREER INTELLIGENCE PLATFORM</span>
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-              className="text-4xl md:text-5xl font-display font-semibold tracking-tight mb-5 leading-[1.1]"
-            >
-              Don't find a job.<br />
-              <span className="text-primary">Become the person companies want to hire.</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="text-text-muted text-lg max-w-lg mb-8 leading-relaxed"
-            >
-              VersaCareer analyzes your resume, maps your skill gaps, builds a personalized roadmap, and mentors you — so you always know where you stand and what to do next.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.25 }}
-              className="flex items-center gap-3 flex-wrap"
-            >
-              <Link to="/auth?mode=signup" className="btn-primary text-base px-6 py-3">Get started free <ArrowRight className="h-4 w-4" /></Link>
-              <Link to="/pricing" className="btn-secondary text-base px-6 py-3">See pricing</Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="flex items-center gap-4 mt-6 text-xs text-text-faint"
-            >
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> 3 free analyses</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> 20 mentor messages</span>
-              <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-success" /> No credit card</span>
-            </motion.div>
+      <main>
+        <section className="hero">
+          <div className="wrap hero-grid">
+            <div>
+              <div className="eyebrow">CAREER READINESS PLATFORM</div>
+              <h1>Don't find a job. <span className="fade">Become the</span> person companies want to hire.</h1>
+              <p className="hero-sub">VersaCareer scans your resume, maps the skill gaps holding you back, builds a week-by-week roadmap to close them, and rehearses you with a mock interview — so you walk in knowing exactly where you stand.</p>
+              <div className="hero-actions">
+                <Link className="btn btn-primary" to="/auth?mode=signup">Get started free →</Link>
+                <Link className="btn btn-ghost" to="/pricing">See pricing</Link>
+              </div>
+              <div className="trust-row">
+                <div className="trust-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                  3 free resume scans
+                </div>
+                <div className="trust-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                  No credit card
+                </div>
+                <div className="trust-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                  1 mock interview included
+                </div>
+              </div>
+            </div>
+
+            <div className="scan-card">
+              <div className="scan-card-head">
+                <div className="scan-title">RESUME_SCAN.JSON</div>
+                <div className="scan-badge">analyzing</div>
+              </div>
+              <div className="scan-body">
+                <div className="ring-wrap">
+                  <svg width="108" height="108" viewBox="0 0 108 108">
+                    <circle className="ring-bg" cx="54" cy="54" r="46" fill="none" strokeWidth="9"/>
+                    <circle className="ring-fg" cx="54" cy="54" r="46" fill="none" strokeWidth="9"/>
+                  </svg>
+                  <div className="ring-num">84</div>
+                </div>
+                <div className="scan-lines">
+                  <div className="scan-line w1"></div>
+                  <div className="scan-line w2"></div>
+                  <div className="scan-line w3"></div>
+                </div>
+              </div>
+              <div className="scan-tags">
+                <div className="tag tag-ok">✓ ATS format</div>
+                <div className="tag tag-gap">△ Missing metrics</div>
+                <div className="tag tag-gap">△ SQL — gap</div>
+                <div className="tag tag-ok">✓ Strong titles</div>
+              </div>
+            </div>
           </div>
+        </section>
 
-          {/* Right: annotated resume visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="relative"
-          >
-            <AnnotatedResume />
-          </motion.div>
-        </div>
-      </section>
+        <div className="wrap"><div className="divider"></div></div>
 
-      {/* Features */}
-      <motion.section
-        id="features"
-        className="max-w-6xl mx-auto px-4 md:px-8 py-16 border-t border-border relative z-10"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        variants={staggerContainer(70)}
-      >
-        <motion.div variants={fadeSlideUp} className="mb-12">
-          <h2 className="text-3xl font-display font-semibold mb-3">Everything you need to become job-ready</h2>
-          <p className="text-text-muted">Six modules. One goal. Know exactly where you stand.</p>
-        </motion.div>
-        <motion.div variants={staggerContainer(60)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {features.map((f) => (
-            <motion.div
-              key={f.title}
-              variants={fadeSlideUp}
-              className="card card-hover p-6 group"
-            >
-              <div className="h-11 w-11 rounded-[2px] bg-primary-soft text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                <f.icon className="h-5 w-5" />
+        <section id="pipeline">
+          <div className="wrap">
+            <div className="section-head">
+              <div className="kicker">The path</div>
+              <h2>One resume in. One interview-ready candidate out.</h2>
+              <p className="section-sub">Each module hands its output straight to the next — nothing you do here is thrown away.</p>
+            </div>
+
+            <div className="pipeline">
+              <div className="stage">
+                <div className="stage-num">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>
+                </div>
+                <h3>Resume Analyzer</h3>
+                <p>Upload your resume and get ATS, technical, and impact scores with line-by-line, actionable fixes.</p>
+                <div className="stage-output"><span className="dot-out"></span>Outputs: score + fix list</div>
               </div>
-              <h3 className="font-display font-medium text-lg mb-1.5">{f.title}</h3>
-              <p className="text-sm text-text-muted leading-relaxed">{f.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
 
-      {/* Diamond separator */}
-      <div className="max-w-6xl mx-auto px-4 md:px-8 relative z-10">
-        <div className="diamond-separator">
-          <span className="brand-star" />
-        </div>
-      </div>
-
-      {/* Trust / architecture */}
-      <motion.section
-        className="max-w-6xl mx-auto px-4 md:px-8 py-16 border-t border-border relative z-10"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={staggerContainer(60)}
-      >
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { icon: Lock, title: 'No exposed API keys', desc: 'Every AI call runs server-side. Your data and our keys never reach the browser.' },
-            { icon: Server, title: 'Real backend, real database', desc: 'Postgres-backed. Your scores, history, and progress survive across devices and reloads.' },
-            { icon: Shield, title: 'Server-enforced limits', desc: 'Free-tier caps are checked on the server against your authenticated account — not a client counter.' },
-          ].map((t) => (
-            <motion.div key={t.title} variants={fadeSlideUp} className="flex gap-3">
-              <div className="h-10 w-10 rounded-[2px] bg-bg-elev flex items-center justify-center flex-shrink-0">
-                <t.icon className="h-5 w-5 text-primary" />
+              <div className="stage">
+                <div className="stage-num">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M17 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
+                </div>
+                <h3>Skill-Gap Analysis</h3>
+                <p>We compare your score against your target role and pinpoint exactly which skills are missing, ranked by impact.</p>
+                <div className="stage-output"><span className="dot-out"></span>Outputs: prioritized gap list</div>
               </div>
-              <div>
-                <h3 className="font-display font-medium text-sm mb-1">{t.title}</h3>
-                <p className="text-sm text-text-muted leading-relaxed">{t.desc}</p>
+
+              <div className="stage">
+                <div className="stage-num">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </div>
+                <h3>Personalized Roadmap</h3>
+                <p>Your gaps become a week-by-week plan of courses and projects, synced across your devices as you progress.</p>
+                <div className="stage-output"><span className="dot-out"></span>Outputs: weekly milestones</div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
 
-      {/* CTA */}
-      <motion.section
-        className="max-w-6xl mx-auto px-4 md:px-8 py-20 text-center border-t border-border relative z-10"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={fadeOnly}
-      >
-        <h2 className="text-3xl font-display font-semibold mb-4">Start with your first resume analysis</h2>
-        <p className="text-text-muted mb-8">Free. Takes two minutes. No credit card.</p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          <Link to="/auth?mode=signup" className="btn-primary text-base px-6 py-3 inline-flex">
-            No existing account? Create one <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link to="/auth?mode=signin" className="text-primary hover:underline font-medium text-sm">
-            Already have an account? Sign in
-          </Link>
-        </div>
-      </motion.section>
+              <div className="stage">
+                <div className="stage-num">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h3>AI Mock Interview</h3>
+                <p>Rehearse real questions for your target role. Get scored on clarity, structure, and confidence — then go again.</p>
+                <div className="stage-output"><span className="dot-out"></span>Outputs: transcript + score</div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <footer className="border-t border-border relative z-10 bg-bg-soft">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 flex flex-col items-center gap-4 text-center text-sm text-text-faint">
-          <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png" alt="VersaCareer" className="h-8 w-auto max-w-[200px] object-contain" />
-          <p>VersaCareer is a product of Pragma, the AI SaaS wing of Optimus, founded by Vadlamudi Sai Chanakya and Devella Sankeerth.</p>
-          <div className="flex items-center gap-2 text-xs text-text-faint/60">
-            <span className="diamond-accent" />
-            <span>Analyze. Upskill. Succeed.</span>
+        <div className="wrap"><div className="divider"></div></div>
+
+        <section>
+          <div className="wrap">
+            <div className="section-head">
+              <div className="kicker">Getting started</div>
+              <h2>Ten minutes to your first score.</h2>
+            </div>
+            <div className="steps">
+              <div className="step">
+                <div className="step-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h4>Upload your resume</h4>
+                <p>PDF or Word — we parse it in seconds, no formatting cleanup needed on your end.</p>
+              </div>
+              <div className="step">
+                <div className="step-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                </div>
+                <h4>See where you stand</h4>
+                <p>Your score, your gaps, and how you compare to your target role, all on one screen.</p>
+              </div>
+              <div className="step">
+                <div className="step-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                </div>
+                <h4>Work the roadmap</h4>
+                <p>Follow the plan, retake the scan, and walk into your mock interview already ahead.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="start">
+          <div className="wrap">
+            <div className="final-cta">
+              <h2>Start with your first resume scan.</h2>
+              <p className="section-sub">Free. Takes two minutes. No credit card required.</p>
+              <div className="final-actions">
+                <Link className="btn btn-primary" to="/auth?mode=signup">Get started free →</Link>
+                <Link className="btn btn-ghost" to="/pricing">See pricing</Link>
+              </div>
+              <div className="fine-print">Already have an account? <Link to="/auth?mode=signin">Sign in →</Link></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div className="wrap">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo"><img className="logo-mark" src="data:image/png;base64,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" alt="VersaCareer" />VersaCareer</div>
+              <p>VersaCareer analyzes your resume, maps your skill gaps, builds your roadmap, and rehearses your interview — one connected path from applicant to hire.</p>
+            </div>
+            <div className="footer-col">
+              <h5>Product</h5>
+              <Link to="/upload">Resume Analyzer</Link>
+              <Link to="/skill-gap">Skill-Gap Analysis</Link>
+              <Link to="/roadmap">Roadmap</Link>
+              <Link to="/mentor">Mock Interview</Link>
+            </div>
+            <div className="footer-col">
+              <h5>Company</h5>
+              <Link to="#">About</Link>
+              <Link to="#">Careers</Link>
+              <Link to="#">Press</Link>
+            </div>
+            <div className="footer-col">
+              <h5>Legal</h5>
+              <Link to="/privacy">Privacy</Link>
+              <Link to="#">Terms</Link>
+              <Link to="#">Cookies</Link>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <div>© 2026 VersaCareer. All rights reserved.</div>
+            <div>Made for people between jobs and job-ready.</div>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
-
