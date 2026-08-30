@@ -30,14 +30,17 @@ export default function Roadmap() {
       const [mRes, aRes, dRes] = await Promise.all([
         supabase.from('milestones').select('*').eq('user_id', user.id).order('week', { ascending: true }),
         supabase.from('resume_analyses').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
-        supabase.from('career_dna').select('*').eq('user_id', user.id).maybeSingle(),
+        supabase.from('career_dna_results').select('top_matches').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
       ])
       if (mRes.error) throw mRes.error
       setMilestones((mRes.data ?? []) as unknown as Milestone[])
       setLatest(aRes.data as unknown as ResumeAnalysis)
-      const dnaData = dRes.data as unknown as CareerDNA
-      setDna(dnaData)
-      if (dnaData?.suggested_careers?.length) setTarget(dnaData.suggested_careers[0])
+      
+      const topMatches = dRes.data?.top_matches ?? []
+      const suggestedCareers = topMatches.map((m: any) => m.career)
+      
+      setDna({ suggested_careers: suggestedCareers } as unknown as CareerDNA)
+      if (suggestedCareers.length) setTarget(suggestedCareers[0])
     } catch (err: any) {
       setError(err.message)
     } finally {

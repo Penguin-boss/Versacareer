@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { Dna, ArrowRight, ArrowLeft, RotateCcw, Target, Check } from 'lucide-react'
 import { PageHeader } from '../components/DashboardLayout'
-import { supabase } from '../lib/supabase'
+import { supabase, callEdgeFunction } from '../lib/supabase'
 import { useAuthStore } from '../lib/authStore'
 import { useAuth } from '../lib/auth'
 import { useTheme } from '../lib/useTheme'
@@ -82,16 +82,14 @@ export default function CareerDNA() {
   const submit = async () => {
     setSaving(true)
     try {
-      const scored = scoreAssessment(answers)
-      setResult(scored)
-
-      const { error } = await supabase.from('career_dna_results').insert({
-        user_id: user!.id,
-        trait_vector: scored.traitVector,
-        top_matches: scored.topMatches.map((m) => ({ career: m.career, match_percent: m.matchPercent })),
-        raw_answers: answers,
+      const res = await callEdgeFunction('score-career-dna', { answers })
+      setResult({
+        traitVector: res.result.trait_vector,
+        topMatches: res.result.top_matches.map((m: any) => ({
+          career: m.career,
+          matchPercent: m.match_percent
+        }))
       })
-      if (error) throw error
 
       await load()
       setPhase('results')

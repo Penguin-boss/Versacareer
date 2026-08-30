@@ -63,9 +63,15 @@ Deno.serve(async (req: Request) => {
     const plan = (profile as any)?.plan ?? "FREE";
     const isFounder = (profile as any)?.is_founder === true;
     const mk = monthKey();
-    const { data: counter } = await admin.from("usage_counters").select("chat_count").eq("user_id", userId).eq("month_key", mk).maybeSingle();
-    const chatCount = (counter as any)?.chat_count ?? 0;
-    if (chatCount >= chatLimit(plan, isFounder)) {
+    const limit = chatLimit(plan, isFounder);
+    const { data: allowed, error: rpcErr } = await admin.rpc("increment_usage", {
+      p_user_id: userId,
+      p_month_key: mk,
+      p_type: "chat",
+      p_limit: limit
+    });
+
+    if (rpcErr || !allowed) {
       return new Response(JSON.stringify({
         error: "You've reached your monthly mentor message limit. Upgrade to Pro for unlimited.",
         code: "MENTOR_PROMPT_LIMIT_REACHED",
@@ -80,7 +86,7 @@ Deno.serve(async (req: Request) => {
 
     // Context: latest resume analysis + career DNA
     const { data: latest } = await admin.from("resume_analyses").select("overall_score,current_skills,missing_skills").eq("user_id", userId).order("created_at", { ascending: false }).limit(1).maybeSingle();
-    const { data: dna } = await admin.from("career_dna").select("suggested_careers").eq("user_id", userId).maybeSingle();
+    const { data: dna } = await admin.from("career_dna_results").select("top_matches").eq("user_id", userId).order("created_at", { ascending: false }).limit(1).maybeSingle();
     const resume = latest as any;
     const careerDna = dna as any;
 
@@ -88,7 +94,7 @@ Deno.serve(async (req: Request) => {
 
     const topSkills = (resume?.current_skills ?? []).slice(0, 8).join(", ") || "none detected";
     const missing = (resume?.missing_skills ?? []).slice(0, 8).join(", ") || "none detected";
-    const careers = (careerDna?.suggested_careers ?? []).join(", ") || "not yet assessed";
+    const careers = (careerDna?.top_matches?.map((m: any) => m.career) ?? []).join(", ") || "not yet assessed";
 
     const systemPrompt =
       "You are VersaCareer AI's career mentor. " +
@@ -144,12 +150,6 @@ Deno.serve(async (req: Request) => {
       return new Response(JSON.stringify({ error: "Failed to save chat history." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Increment chat counter (counts assistant responses)
-    if (counter) {
-      await admin.from("usage_counters").update({ chat_count: chatCount + 1 }).eq("user_id", userId).eq("month_key", mk);
-    } else {
-      await admin.from("usage_counters").insert({ user_id: userId, month_key: mk, analyses_count: 0, chat_count: 1, resumes_generations_count: 0 });
-    }
 
     // Log AI usage for admin cost monitoring
     try {

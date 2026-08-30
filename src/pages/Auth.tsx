@@ -55,9 +55,6 @@ export default function AuthPage() {
   const [localMode, setLocalMode] = useState<Mode>(queryMode === 'signin' ? 'signin' : 'signup')
   const mode: Mode = localMode
 
-  if (authLoading) return <FullLoader />
-  if (user) return <Navigate to="/dashboard" replace />
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -74,6 +71,9 @@ export default function AuthPage() {
 
   const navigate = useNavigate()
   const { fadeSlideUp: fsu, fadeOnly: fo } = useMotionVariants()
+
+  if (authLoading) return <FullLoader />
+  if (user) return <Navigate to="/dashboard" replace />
 
   const switchMode = (m: Mode) => {
     setLocalMode(m)

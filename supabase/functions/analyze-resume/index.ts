@@ -164,9 +164,15 @@ Deno.serve(async (req: Request) => {
 
     // Enforce plan-tier cap (FREE=3, PRO/PRO_PLUS/FOUNDER=ABUSE_CEILING)
     const mk = monthKey();
-    const { data: counter } = await admin.from("usage_counters").select("analyses_count").eq("user_id", userId).eq("month_key", mk).maybeSingle();
-    const analysesCount = (counter as any)?.analyses_count ?? 0;
-    if (analysesCount >= analysesLimit(plan, isFounder)) {
+    const limit = analysesLimit(plan, isFounder);
+    const { data: allowed, error: rpcErr } = await admin.rpc("increment_usage", {
+      p_user_id: userId,
+      p_month_key: mk,
+      p_type: "analyses",
+      p_limit: limit
+    });
+    
+    if (rpcErr || !allowed) {
       return new Response(JSON.stringify({
         error: "You've reached your monthly resume analysis limit. Upgrade to Pro for unlimited.",
         code: "RESUME_ANALYSIS_LIMIT_REACHED",
@@ -271,13 +277,6 @@ Deno.serve(async (req: Request) => {
     const { data: inserted, error: insertErr } = await admin.from("resume_analyses").insert(row).select("*").single();
     if (insertErr || !inserted) {
       return new Response(JSON.stringify({ error: "Failed to save analysis." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
-    // Increment usage counter (upsert)
-    if (counter) {
-      await admin.from("usage_counters").update({ analyses_count: analysesCount + 1 }).eq("user_id", userId).eq("month_key", mk);
-    } else {
-      await admin.from("usage_counters").insert({ user_id: userId, month_key: mk, analyses_count: 1, chat_count: 0, resumes_generations_count: 0 });
     }
 
     // Log AI usage for admin cost monitoring
