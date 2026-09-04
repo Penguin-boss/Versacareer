@@ -398,5 +398,3 @@ function ResultsView({
     </motion.div>
   )
 }
-
-

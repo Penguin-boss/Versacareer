@@ -372,4 +372,3 @@ function PlanCard({
     </motion.div>
   )
 }
-

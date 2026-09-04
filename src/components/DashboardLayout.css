@@ -317,6 +317,7 @@
   .dashboard-page-root .glance-grid { grid-template-columns: 1fr; }
   .dashboard-page-root .kpi-row { grid-template-columns: 1fr 1fr; }
 }
+
 /* LIGHT MODE OVERRIDES FOR DASHBOARD */
 .light .dashboard-page-root {
   --ink: #F7F8FC;
@@ -343,9 +344,6 @@
 /* COLLAPSIBLE SIDEBAR */
 .dashboard-page-root .layout.collapsed {
   grid-template-columns: 80px 1fr;
-}
-.dashboard-page-root .sidebar {
-  position: sticky;
 }
 .dashboard-page-root .nav-label {
   transition: opacity 0.2s, width 0.2s;
