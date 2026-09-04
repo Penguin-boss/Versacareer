@@ -123,7 +123,7 @@ export default function Billing() {
 
       {/* Billing toggle */}
       <div className="flex justify-center mb-6">
-        <div className="inline-flex items-center gap-1 p-1 rounded-[2px] border border-border bg-bg-soft">
+        <div className="inline-flex items-center gap-1 p-1 rounded-md border border-border bg-bg-soft">
           <button
             onClick={() => setBilling('monthly')}
             className={`px-4 py-2 text-sm rounded-md transition-colors ${billing === 'monthly' ? 'bg-bg-elev text-text shadow-sm' : 'text-text-muted hover:text-text'}`}
@@ -149,8 +149,8 @@ export default function Billing() {
           period="forever"
           features={FREE_FEATURES}
           cta={isCurrent('FREE')
-            ? <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-[2px]">Current plan</div>
-            : <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-[2px]">Current plan</div>}
+            ? <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-md">Current plan</div>
+            : <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-md">Current plan</div>}
         />
 
         {/* Pro */}
@@ -163,7 +163,7 @@ export default function Billing() {
           highlight
           features={PRO_FEATURES}
           cta={isCurrent('PRO')
-            ? <div className="text-center text-sm text-success py-2.5 border border-success/30 rounded-[2px] bg-success/5">Active — thank you!</div>
+            ? <div className="text-center text-sm text-success py-2.5 border border-success/30 rounded-md bg-success/5">Active — thank you!</div>
             : <button onClick={() => handleUpgrade('PRO')} className="btn-primary w-full"><Crown className="h-4 w-4" /> Upgrade to Pro</button>}
         />
 
@@ -177,7 +177,7 @@ export default function Billing() {
           highlight
           features={PRO_PLUS_FEATURES}
           cta={isCurrent('PRO_PLUS')
-            ? <div className="text-center text-sm text-success py-2.5 border border-success/30 rounded-[2px] bg-success/5">Active — thank you!</div>
+            ? <div className="text-center text-sm text-success py-2.5 border border-success/30 rounded-md bg-success/5">Active — thank you!</div>
             : <button onClick={() => handleUpgrade('PRO_PLUS')} className="btn-accent w-full"><Sparkles className="h-4 w-4" /> Go Pro+</button>}
         />
 
@@ -204,7 +204,7 @@ export default function Billing() {
             </div>
           )}
 
-          <div className="mb-4 p-3 rounded-[2px] bg-warning/5 border border-warning/20">
+          <div className="mb-4 p-3 rounded-md bg-warning/5 border border-warning/20">
             <div className="flex items-center justify-between text-xs mb-1.5">
               <span className="text-text-muted">Claimed</span>
               <span className="font-semibold text-warning">{founderSold} of {FOUNDER_PASS_CAP}</span>
@@ -223,9 +223,9 @@ export default function Billing() {
             ))}
           </ul>
           {isCurrent('FOUNDER')
-            ? <div className="text-center text-sm text-warning py-2.5 border border-warning/30 rounded-[2px] bg-warning/5">Founder — lifetime access</div>
+            ? <div className="text-center text-sm text-warning py-2.5 border border-warning/30 rounded-md bg-warning/5">Founder — lifetime access</div>
             : founderRemaining === 0
-              ? <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-[2px] bg-bg-soft">Founder Pass — SOLD OUT</div>
+              ? <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-md bg-bg-soft">Founder Pass — SOLD OUT</div>
               : <button onClick={() => handleUpgrade('FOUNDER')} className="btn-primary w-full" style={{ background: 'var(--warning)' }}>
                   <InfinityIcon className="h-4 w-4" /> Claim Founder Pass
                 </button>}
@@ -260,7 +260,7 @@ function PlanCard({
 }) {
   return (
     <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'card-accent shadow-glow' : ''}`}>
-      {badge && <div className="absolute -top-3 right-5 badge bg-primary text-white border border-primary/20">{badge}</div>}
+      {badge && <div className="absolute -top-3 right-5 badge bg-primary text-onprimary border border-primary/20">{badge}</div>}
       <div className="flex items-center gap-2 mb-1">
         {icon}
         <h3 className="text-lg font-semibold">{name}</h3>

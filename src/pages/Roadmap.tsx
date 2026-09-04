@@ -151,7 +151,7 @@ export default function Roadmap() {
                 <div key={m.id} className="relative pl-14">
                   <div className={`absolute left-0 top-0 h-10 w-10 rounded-full flex items-center justify-center border-2 ${
                     isCompleted ? 'bg-success border-success text-white' :
-                    isInProgress ? 'bg-primary border-primary text-white' :
+                    isInProgress ? 'bg-primary border-primary text-onprimary' :
                     'bg-bg-elev border-border text-text-faint'
                   }`}>
                     {isCompleted ? <Check className="h-5 w-5" /> : isLocked ? <Lock className="h-4 w-4" /> : <Play className="h-4 w-4" />}

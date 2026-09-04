@@ -42,7 +42,7 @@ export default function FeedbackWidget() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 h-12 w-12 rounded-full bg-primary text-white shadow-glow flex items-center justify-center hover:bg-primary-hover transition-colors"
+        className="fixed bottom-5 right-5 z-40 h-12 w-12 rounded-full bg-primary text-onprimary shadow-glow flex items-center justify-center hover:bg-primary-hover transition-colors"
         aria-label="Give feedback"
       >
         <MessageSquare className="h-5 w-5" />

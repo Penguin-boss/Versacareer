@@ -151,7 +151,7 @@ export default function CareerDNA() {
         <PageHeader title="Career DNA" subtitle="A 21-question assessment that maps your traits across 7 dimensions and matches you to career archetypes." icon={Dna} />
         <div className="max-w-2xl mx-auto">
           <motion.div variants={fadeSlideUp} className="card p-8 text-center">
-            <div className="h-16 w-16 rounded-[2px] bg-accent-soft text-accent flex items-center justify-center mx-auto mb-6 diamond-accent-lg">
+            <div className="h-16 w-16 rounded-md bg-accent-soft text-accent flex items-center justify-center mx-auto mb-6 diamond-accent-lg">
               <Dna className="h-8 w-8" />
             </div>
             <h2 className="font-display text-2xl font-semibold mb-3">Discover your career DNA</h2>
@@ -171,7 +171,7 @@ export default function CareerDNA() {
             <h3 className="font-medium mb-4 text-sm">7 Trait Dimensions</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {AXIS_ORDER.map((axis) => (
-                <div key={axis} className="flex flex-col items-center text-center p-3 rounded-[2px] bg-bg-soft border border-border">
+                <div key={axis} className="flex flex-col items-center text-center p-3 rounded-md bg-bg-soft border border-border">
                   <span className="text-xs font-mono text-primary mb-1">{axis}</span>
                   <span className="text-xs text-text-muted">{AXIS_LABELS[axis]}</span>
                 </div>
@@ -224,14 +224,14 @@ export default function CareerDNA() {
                   <button
                     key={idx}
                     onClick={() => handleAnswer(idx)}
-                    className={`w-full text-left rounded-[2px] border p-4 text-sm transition-all ${
+                    className={`w-full text-left rounded-md border p-4 text-sm transition-all ${
                       selected
                         ? 'bg-primary-soft border-primary text-text'
                         : 'bg-bg-soft border-border hover:border-border-soft text-text-muted'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className={`h-5 w-5 rounded-[2px] border flex items-center justify-center ${
+                      <span className={`h-5 w-5 rounded-md border flex items-center justify-center ${
                         selected ? 'bg-primary border-primary' : 'border-border'
                       }`}>
                         {selected && <Check className="h-3.5 w-3.5 text-bg" />}
@@ -322,7 +322,7 @@ function ResultsView({
             {AXIS_ORDER.map((axis) => {
               const val = Math.round((result.trait_vector[axis] ?? 0) * 100)
               return (
-                <div key={axis} className="text-center p-2 rounded-[2px] bg-bg-soft border border-border">
+                <div key={axis} className="text-center p-2 rounded-md bg-bg-soft border border-border">
                   <div className="text-[10px] font-mono text-text-faint mb-0.5">{axis}</div>
                   <div className={`text-sm font-display font-bold ${val >= 67 ? 'text-primary' : val >= 40 ? 'text-primary' : 'text-text-muted'}`}>{val}</div>
                 </div>
@@ -346,7 +346,7 @@ function ResultsView({
               return (
                 <div
                   key={match.career}
-                  className={`rounded-[2px] border p-4 transition-all w-full min-w-0 ${
+                  className={`rounded-md border p-4 transition-all w-full min-w-0 ${
                     isTop ? 'border-accent/40 bg-accent-soft' : 'border-border bg-bg-soft'
                   }`}
                 >
@@ -361,9 +361,9 @@ function ResultsView({
                       {match.match_percent}%
                     </span>
                   </div>
-                  <div className="h-1.5 bg-bg-elev overflow-hidden rounded-[2px]">
+                  <div className="h-1.5 bg-bg-elev overflow-hidden rounded-md">
                     <motion.div
-                      className={`h-full rounded-[2px] ${isTop ? 'bg-primary' : 'bg-primary'}`}
+                      className={`h-full rounded-md ${isTop ? 'bg-primary' : 'bg-primary'}`}
                       initial={{ width: 0 }}
                       animate={{ width: `${match.match_percent}%` }}
                       transition={{ duration: 0.7, ease: 'easeOut', delay: idx * 0.1 }}

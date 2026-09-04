@@ -19,10 +19,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             position="top-right"
             toastOptions={{
               style: {
-                background: 'rgb(16, 23, 40)',
-                color: 'rgb(240, 238, 244)',
-                border: '1px solid rgb(28, 38, 58)',
-                borderRadius: '3px',
+                background: 'rgb(18, 22, 31)',
+                color: 'rgb(237, 239, 243)',
+                border: '1px solid rgb(35, 40, 56)',
+                borderRadius: '10px',
                 fontSize: '14px',
               },
               error: { style: { background: 'rgb(127, 29, 29)', color: '#fff', border: '1px solid rgb(239, 68, 68)' } },

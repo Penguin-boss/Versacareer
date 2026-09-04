@@ -169,7 +169,7 @@ export default function SkillGap() {
                 const pColor = p === 'HIGH' ? 'text-error' : p === 'MEDIUM' ? 'text-warning' : 'text-success'
                 const pBg = p === 'HIGH' ? 'bg-error/10 border-error/20' : p === 'MEDIUM' ? 'bg-warning/10 border-warning/20' : 'bg-success/10 border-success/20'
                 return (
-                  <div key={s} className="flex items-center justify-between rounded-[2px] border border-border bg-bg-soft p-3">
+                  <div key={s} className="flex items-center justify-between rounded-md border border-border bg-bg-soft p-3">
                     <div>
                       <div className="text-sm font-medium">{s}</div>
                       <div className="text-xs text-text-faint">{cat}</div>

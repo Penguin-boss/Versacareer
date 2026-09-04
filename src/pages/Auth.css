@@ -1,16 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 .auth-page-root {
   --ink: #0B0E14;
   --surface: #12161F;
   --surface-2: #171C27;
   --border: #232838;
   --border-soft: #1B202C;
+  --border-strong: #333B50;
   --text: #EDEFF3;
   --text-muted: #8B93A7;
   --text-faint: #565E72;
-  --accent: #7C93FF;
-  --accent-dim: #5468D6;
+  --mint: #7C93FF;
+  --mint-dim: #5468D6;
+  --mint-hover: #93A6FF;
+
+  --card-deep: #0F131C;
+  --btn-text: #0C0F1E;
+  --glow: rgba(124, 147, 255, 0.28);
+  --grid-line: rgba(255, 255, 255, 0.025);
 
   --display: 'Space Grotesk', sans-serif;
   --body: 'Inter', sans-serif;
@@ -21,11 +26,32 @@
   font-family: var(--body);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  min-height:100vh;
+  min-height: 100vh;
+}
+
+/* LIGHT MODE — same design language, light surfaces */
+.light .auth-page-root {
+  --ink: #F7F8FC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F4F9;
+  --border: #E0E4EE;
+  --border-soft: #CED4E2;
+  --border-strong: #BFC8DC;
+  --text: #0E1424;
+  --text-muted: #586074;
+  --text-faint: #6C7488;
+  --mint: #466AB4;
+  --mint-dim: #38589C;
+  --mint-hover: #38589C;
+
+  --card-deep: #FFFFFF;
+  --btn-text: #FFFFFF;
+  --glow: rgba(70, 106, 180, 0.22);
+  --grid-line: rgba(14, 20, 36, 0.05);
 }
 
 .auth-page-root * {
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -39,8 +65,8 @@
   position:fixed;
   inset:0;
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 64px 64px;
   pointer-events:none;
   z-index:0;
@@ -72,7 +98,7 @@
 }
 .auth-page-root .brand-mark {
   width: 56px; height: 56px;
-  filter: drop-shadow(0 0 18px rgba(124,147,255,0.25));
+  filter: drop-shadow(0 0 18px var(--glow));
 }
 .auth-page-root .brand-name {
   font-family: var(--mono);
@@ -109,7 +135,7 @@
   transition: border-color .15s, background .15s, transform .15s;
 }
 .auth-page-root .oauth-btn:hover:not(:disabled) {
-  border-color: #333B50;
+  border-color: var(--border-strong);
   background: var(--surface-2);
   transform: translateY(-1px);
 }
@@ -136,7 +162,7 @@
 }
 
 .auth-page-root .form-card {
-  background: linear-gradient(180deg, var(--surface) 0%, #0F131C 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--card-deep) 100%);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 30px 26px 26px;
@@ -164,7 +190,7 @@
   border-color: #EF4444;
 }
 .auth-page-root .field-input:focus-within {
-  border-color: var(--accent);
+  border-color: var(--mint);
   box-shadow: 0 0 0 3px rgba(124,147,255,0.15);
 }
 .auth-page-root .field-input svg { flex-shrink:0; color: var(--text-faint); }
@@ -189,8 +215,8 @@
   width: 100%;
   padding: 14px 20px;
   border-radius: 9px;
-  background: var(--accent);
-  color: #0C0F1E;
+  background: var(--mint);
+  color: var(--btn-text);
   border: none;
   font-size: 15px;
   font-weight: 700;
@@ -202,9 +228,9 @@
   gap: 8px;
 }
 .auth-page-root .submit-btn:hover:not(:disabled) {
-  background: #93a6ff;
+  background: var(--mint-hover);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(124,147,255,0.28);
+  box-shadow: 0 8px 24px var(--glow);
 }
 .auth-page-root .submit-btn:disabled {
   opacity: 0.7;
@@ -218,17 +244,17 @@
   color: var(--text-muted);
 }
 .auth-page-root .switch-row a, .auth-page-root .switch-row button {
-  color: var(--accent);
+  color: var(--mint);
   font-weight: 600;
   background: none;
   border: none;
   font-size: inherit;
   padding: 0;
 }
-.auth-page-root .switch-row a:hover, .auth-page-root .switch-row button:hover { color: #93a6ff; }
+.auth-page-root .switch-row a:hover, .auth-page-root .switch-row button:hover { color: var(--mint-hover); }
 
 .auth-page-root .forgot-btn {
-  color: var(--accent);
+  color: var(--mint);
   background: none;
   border: none;
   padding: 0;
@@ -237,7 +263,7 @@
 .auth-page-root .forgot-btn:hover { text-decoration: underline; }
 
 .auth-page-root .resend-btn {
-  color: var(--accent);
+  color: var(--mint);
   background: none;
   border: none;
   padding: 0;

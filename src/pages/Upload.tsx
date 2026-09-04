@@ -120,7 +120,7 @@ export default function Upload() {
         />
         {file ? (
           <div className="flex items-center justify-center gap-3">
-            <div className="h-12 w-12 rounded-[2px] bg-primary-soft text-primary flex items-center justify-center diamond-accent">
+            <div className="h-12 w-12 rounded-md bg-primary-soft text-primary flex items-center justify-center diamond-accent">
               <FileText className="h-6 w-6" />
             </div>
             <div className="text-left">

@@ -69,7 +69,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               </button>
             </div>
             {import.meta.env.DEV && this.state.error && (
-              <pre className="mt-4 text-xs text-error/80 bg-bg-elev rounded-[2px] p-3 max-w-full overflow-x-auto text-left w-full">
+              <pre className="mt-4 text-xs text-error/80 bg-bg-elev rounded-md p-3 max-w-full overflow-x-auto text-left w-full">
                 {this.state.error.message}
               </pre>
             )}
@@ -101,7 +101,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             </a>
           </div>
           {import.meta.env.DEV && this.state.error && (
-            <pre className="mt-8 text-xs text-error/80 bg-bg-elev rounded-[2px] p-4 max-w-full overflow-x-auto text-left">
+            <pre className="mt-8 text-xs text-error/80 bg-bg-elev rounded-md p-4 max-w-full overflow-x-auto text-left">
               {this.state.error.message}
               {'\n'}
               {this.state.error.stack}

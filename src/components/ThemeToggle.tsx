@@ -43,7 +43,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 mt-2 w-36 bg-surface border border-border rounded-lg shadow-xl overflow-hidden z-50"
+            className="absolute right-0 mt-2 w-36 bg-bg-soft border border-border rounded-lg shadow-xl overflow-hidden z-50"
           >
             <div className="py-1">
               {options.map((option) => (
@@ -53,7 +53,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
                     setTheme(option.value)
                     setIsOpen(false)
                   }}
-                  className={`w-full flex items-center gap-3 px-3 py-2 text-sm text-left transition-colors hover:bg-surface-2 ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 text-sm text-left transition-colors hover:bg-bg-elev ${
                     theme === option.value ? 'text-primary font-medium' : 'text-text-muted hover:text-text'
                   }`}
                 >

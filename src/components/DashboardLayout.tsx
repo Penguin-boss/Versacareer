@@ -46,6 +46,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="dashboard-page-root">
+      <div className="bg-grid"></div>
       <div className={`layout ${isCollapsed ? 'collapsed' : ''}`}>
         
         {/* SIDEBAR */}

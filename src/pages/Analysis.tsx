@@ -76,7 +76,7 @@ export default function Analysis() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
-        className="w-full rounded-[3px] overflow-hidden mb-6"
+        className="w-full rounded-lg overflow-hidden mb-6"
         style={{ maxHeight: 220 }}
       >
         <img
@@ -94,7 +94,7 @@ export default function Analysis() {
           <motion.div variants={fadeSlideUp} className="card card-accent p-6 card-hover">
             <ScoreGauges current={current} />
             {current.suitable_roles_text && (
-              <div className="rounded-[2px] bg-bg-soft border border-border p-4 mt-6">
+              <div className="rounded-md bg-bg-soft border border-border p-4 mt-6">
                 <div className="text-xs text-text-faint mb-1">SUITABLE ROLES</div>
                 <p className="text-sm">{current.suitable_roles_text}</p>
               </div>
@@ -175,7 +175,7 @@ export default function Analysis() {
                   const sevColor = item.severity === 'high' ? 'text-error' : item.severity === 'medium' ? 'text-warning' : 'text-text-muted'
                   const sevBg = item.severity === 'high' ? 'bg-error/10 border-error/20' : item.severity === 'medium' ? 'bg-warning/10 border-warning/20' : 'bg-bg-elev border-border'
                   return (
-                    <div key={i} className={`rounded-[2px] border p-3 ${sevBg}`}>
+                    <div key={i} className={`rounded-md border p-3 ${sevBg}`}>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs uppercase tracking-wide text-text-faint">{item.type}</span>
                         <span className={`text-xs font-medium ${sevColor}`}>{item.severity}</span>
@@ -203,7 +203,7 @@ export default function Analysis() {
                   <button
                     key={h.id}
                     onClick={() => setSelectedId(h.id)}
-                    className={`w-full text-left rounded-[2px] p-3 border transition-colors ${
+                    className={`w-full text-left rounded-md p-3 border transition-colors ${
                       h.id === selectedId ? 'bg-primary-soft border-primary/30' : 'bg-bg-soft border-border hover:border-border-soft'
                     }`}
                   >

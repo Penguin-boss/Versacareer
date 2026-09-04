@@ -133,7 +133,7 @@ export default function Profile() {
                   <label className="label">Target roles</label>
                   <div className="flex flex-wrap gap-2">
                     {CAREER_PATHS.map((r) => (
-                      <button key={r} type="button" onClick={() => toggleRole(r)} className={`rounded-[2px] border px-3 py-1.5 text-xs transition-colors ${targetRoles.includes(r) ? 'bg-primary-soft border-primary/40 text-text' : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'}`}>{r}</button>
+                      <button key={r} type="button" onClick={() => toggleRole(r)} className={`rounded-md border px-3 py-1.5 text-xs transition-colors ${targetRoles.includes(r) ? 'bg-primary-soft border-primary/40 text-text' : 'bg-bg-soft border-border text-text-muted hover:border-border-soft'}`}>{r}</button>
                     ))}
                   </div>
                 </div>

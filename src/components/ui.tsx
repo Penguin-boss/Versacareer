@@ -96,9 +96,9 @@ export function AnimatedProgress({ value, className = '', barClassName = '' }: {
     return () => clearTimeout(t)
   }, [value, reduced])
   return (
-    <div className={`h-2.5 rounded-[2px] bg-bg-elev overflow-hidden ${className}`}>
+    <div className={`h-2.5 rounded-md bg-bg-elev overflow-hidden ${className}`}>
       <div
-        className={`h-full rounded-[2px] ${barClassName}`}
+        className={`h-full rounded-md ${barClassName}`}
         style={{ width: `${width}%`, background: 'linear-gradient(90deg, rgb(var(--color-primary)), rgb(var(--color-accent)))', transition: 'width 0.7s cubic-bezier(0.22, 1, 0.36, 1)' }}
       />
     </div>
@@ -113,8 +113,8 @@ export function ScoreBar({ label, score }: { label: string; score: number }) {
         <span className="text-text-muted">{label}</span>
         <span className="font-medium font-mono">{score}/100</span>
       </div>
-      <div className="h-2 rounded-[2px] bg-bg-elev overflow-hidden">
-        <div className={`h-full ${color} rounded-[2px] transition-all duration-700`} style={{ width: `${score}%` }} />
+      <div className="h-2 rounded-md bg-bg-elev overflow-hidden">
+        <div className={`h-full ${color} rounded-md transition-all duration-700`} style={{ width: `${score}%` }} />
       </div>
     </div>
   )
