@@ -22,7 +22,7 @@ export function FullLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-bg">
       <div className="flex flex-col items-center gap-3">
-        <img src="/assets/brand/icon-gold.png" alt="VersaCareer AI" className="h-16 w-16 object-contain animate-brand-fade" />
+        <img src="/assets/brand/icon-gold.webp" alt="VersaCareer AI" className="h-16 w-16 object-contain animate-brand-fade" />
         <p className="text-text-muted text-sm font-mono">Loading VersaCareer AI…</p>
       </div>
     </div>

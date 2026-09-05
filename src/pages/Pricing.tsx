@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import {
   Check, Crown, Zap, Sparkles, Shield, ArrowRight, TrendingUp, Infinity as InfinityIcon,
@@ -89,12 +90,35 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-bg relative overflow-hidden">
+      <Helmet>
+        <title>Pricing & Plans — VersaCareer by Pragma</title>
+        <meta name="description" content="Upgrade your career journey with VersaCareer Pro, Pro+, or grab a Lifetime Founder Pass before they run out." />
+        <link rel="canonical" href="https://versacareer.com/pricing" />
+        <meta property="og:title" content="Pricing & Plans — VersaCareer" />
+        <meta property="og:description" content="Affordable plans to unlock your career potential." />
+        <meta property="og:url" content="https://versacareer.com/pricing" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "VersaCareer Pro",
+              "description": "Unlimited resume analysis and career mentorship",
+              "offers": {
+                "@type": "Offer",
+                "price": "9.99",
+                "priceCurrency": "USD"
+              }
+            }
+          `}
+        </script>
+      </Helmet>
       <AmbientBackground />
       {/* Nav */}
       <header className="border-b border-border">
         <div className="max-w-6xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src="/VersaCareer_AI_Logo.png" alt="VersaCareer AI" className="h-9 w-9 rounded-md" />
+            <img src="/VersaCareer_AI_Logo.webp" alt="VersaCareer AI" className="h-9 w-9 rounded-[2px]" />
             <div>
               <div className="font-semibold leading-tight">VersaCareer AI</div>
               <div className="text-[11px] text-text-faint">by Pragma</div>
@@ -106,7 +130,7 @@ export default function Pricing() {
 
       {/* Hero */}
       <motion.section initial="hidden" animate="visible" variants={fadeOnly} className="max-w-6xl mx-auto px-4 md:px-8 pt-16 pb-8 text-center relative z-10">
-        <div className="inline-flex items-center gap-2 rounded-md border border-border bg-bg-soft px-3 py-1 text-xs text-text-muted mb-6">
+        <div className="inline-flex items-center gap-2 rounded-[2px] border border-border bg-bg-soft px-3 py-1 text-xs text-text-muted mb-6">
           <Sparkles className="h-3.5 w-3.5 text-primary" />
           Simple, transparent pricing
         </div>
@@ -119,7 +143,7 @@ export default function Pricing() {
         </p>
 
         {/* Billing toggle */}
-        <div className="inline-flex items-center gap-1 p-1 rounded-md border border-border bg-bg-soft mb-2">
+        <div className="inline-flex items-center gap-1 p-1 rounded-[2px] border border-border bg-bg-soft mb-2">
           <button
             onClick={() => setBilling('monthly')}
             className={`px-4 py-2 text-sm rounded-md transition-colors ${billing === 'monthly' ? 'bg-bg-elev text-text shadow-sm' : 'text-text-muted hover:text-text'}`}
@@ -201,7 +225,7 @@ export default function Pricing() {
                 </div>
 
                 {/* Live counter */}
-                <div className="mb-4 p-3 rounded-md bg-warning/5 border border-warning/20">
+                <div className="mb-4 p-3 rounded-[2px] bg-warning/5 border border-warning/20">
                   <div className="flex items-center justify-between text-xs mb-1.5">
                     <span className="text-text-muted">Claimed</span>
                     <span className="font-semibold text-warning">{founderCount} of {FOUNDER_PASS_CAP}</span>
@@ -242,7 +266,7 @@ export default function Pricing() {
               ))}
             </ul>
             {founderRemaining === 0 ? (
-              <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-md bg-bg-soft">Founder Pass — SOLD OUT</div>
+              <div className="text-center text-sm text-text-muted py-2.5 border border-border rounded-[2px] bg-bg-soft">Founder Pass — SOLD OUT</div>
             ) : (
               <Link to="/billing" className="btn-primary w-full" style={{ background: 'var(--warning)' }}>
                 <InfinityIcon className="h-4 w-4" /> Claim Founder Pass
@@ -308,7 +332,7 @@ export default function Pricing() {
             { icon: TrendingUp, title: 'Cancel anytime', desc: 'Downgrade to Free at any time. Your data stays. You just lose the paid features.' },
           ].map((t) => (
             <motion.div key={t.title} variants={fadeSlideUp} className="flex gap-3">
-              <div className="h-10 w-10 rounded-md bg-bg-elev flex items-center justify-center flex-shrink-0">
+              <div className="h-10 w-10 rounded-[2px] bg-bg-elev flex items-center justify-center flex-shrink-0">
                 <t.icon className="h-5 w-5 text-primary" />
               </div>
               <div>
@@ -352,7 +376,7 @@ function PlanCard({
   return (
     <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'card-accent' : ''}`}>
       {badge && (
-        <div className={`absolute -top-3 right-5 badge ${highlight ? 'bg-warning text-white border border-warning/20' : 'bg-primary text-onprimary border border-primary/20'}`}>{badge}</div>
+        <div className={`absolute -top-3 right-5 badge ${highlight ? 'bg-warning text-white border border-warning/20' : 'bg-primary text-white border border-primary/20'}`}>{badge}</div>
       )}
       <div className="flex items-center gap-2 mb-1">
         {icon}
@@ -372,3 +396,4 @@ function PlanCard({
     </motion.div>
   )
 }
+

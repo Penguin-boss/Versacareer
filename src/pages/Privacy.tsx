@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { fadeOnly } from '../lib/motionVariants'
@@ -7,12 +8,17 @@ import { AmbientBackground } from '../components/AmbientBackground'
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-bg relative overflow-hidden">
+      <Helmet>
+        <title>Privacy Policy — VersaCareer</title>
+        <meta name="description" content="Privacy Policy for VersaCareer. Learn how we handle your data." />
+        <link rel="canonical" href="https://versacareer.com/privacy" />
+      </Helmet>
       <AmbientBackground />
       {/* Nav */}
       <header className="border-b border-border relative z-10 bg-bg/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           <Link to="/" aria-label="VersaCareer AI home" className="inline-flex items-center">
-            <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.png" alt="VersaCareer AI" className="h-9 w-auto max-w-[220px] object-contain" />
+            <img src="/assets/brand/VersaCareer_AI_Logo_Gold_OnDark.webp" alt="VersaCareer AI" className="h-9 w-auto max-w-[220px] object-contain" />
           </Link>
           <div className="flex items-center gap-3">
             <Link to="/dashboard" className="btn-primary">Get started <ArrowRight className="h-4 w-4" /></Link>

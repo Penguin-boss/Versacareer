@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { useMotionVariants } from '../lib/motionVariants'
 import { useAuthStore } from '../lib/authStore'
 import { FullLoader } from '../components/DashboardLayout'
+import { Helmet } from 'react-helmet-async'
 
 import './Auth.css'
 
@@ -203,6 +204,9 @@ export default function AuthPage() {
   if (mode === 'check-inbox') {
     return (
       <div className="auth-page-root">
+        <Helmet>
+          <title>Check Your Inbox — VersaCareer</title>
+        </Helmet>
         <div className="bg-grid"></div>
         <button onClick={() => switchMode('signup')} className="back-link">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -235,6 +239,11 @@ export default function AuthPage() {
 
   return (
     <div className="auth-page-root">
+      <Helmet>
+        <title>{mode === 'signin' ? 'Sign In' : 'Sign Up'} — VersaCareer</title>
+        <meta name="description" content="Sign in or create an account for VersaCareer." />
+        <link rel="canonical" href="https://versacareer.com/auth" />
+      </Helmet>
       <div className="bg-grid"></div>
 
       <Link className="back-link" to="/">

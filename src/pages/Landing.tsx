@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '../lib/authStore';
 import { FullLoader } from '../components/DashboardLayout';
 import { ThemeToggle } from '../components/ThemeToggle';
@@ -57,12 +58,37 @@ export default function Landing() {
 
   return (
     <div className="landing-page-root">
+      <Helmet>
+        <title>VersaCareer — Career Intelligence by Pragma</title>
+        <meta name="description" content="VersaCareer scans your resume, maps skill gaps, builds a roadmap, and preps you for interviews. Stand out in tech and beyond." />
+        <link rel="canonical" href="https://versacareer.com/" />
+        <meta property="og:title" content="VersaCareer — Career Intelligence by Pragma" />
+        <meta property="og:description" content="Don't find a job. Become the person companies want to hire. AI-powered career readiness." />
+        <meta property="og:url" content="https://versacareer.com/" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "VersaCareer",
+              "operatingSystem": "All",
+              "applicationCategory": "CareerService",
+              "description": "AI-powered career intelligence platform. Analyze resumes, find skill gaps, and get mock interviews.",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              }
+            }
+          `}
+        </script>
+      </Helmet>
       <div className="bg-grid"></div>
 
       <header>
         <nav>
           <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
-            <img className="logo-mark" alt="VersaCareer" src="/assets/brand/icon-gold.png" />
+            <img className="logo-mark" alt="VersaCareer" src="/assets/brand/icon-gold.webp" />
             <span>VersaCareer</span>
           </Link>
           <div className="nav-cta">
@@ -77,9 +103,9 @@ export default function Landing() {
         <section className="hero">
           <div className="wrap hero-grid">
             <div>
-              <div className="eyebrow">CAREER READINESS PLATFORM</div>
-              <h1>Don't find a job. <span className="fade">Become the</span> person companies want to hire.</h1>
-              <p className="hero-sub">VersaCareer scans your resume, maps the skill gaps holding you back, builds a week-by-week roadmap to close them, and rehearses you with a mock interview — so you walk in knowing exactly where you stand.</p>
+              <div className="eyebrow">AI CAREER READINESS PLATFORM</div>
+              <h1>AI Resume Analyzer & Career Platform. <span className="fade">Become the</span> person companies want to hire.</h1>
+              <p className="hero-sub">VersaCareer scans your resume with AI, maps the skill gaps holding you back, builds a week-by-week roadmap to close them, and rehearses you with a mock interview — so you walk in knowing exactly where you stand.</p>
               <div className="hero-actions">
                 <Link className="btn btn-primary" to="/auth?mode=signup">Get started free →</Link>
                 <Link className="btn btn-ghost" to="/pricing">See pricing</Link>
