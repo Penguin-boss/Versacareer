@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "postbuild": "react-snap"
+    "postbuild": "node -e \"if(!process.env.VERCEL){require('child_process').execSync('react-snap',{stdio:'inherit'})}else{console.log('Skipping react-snap on Vercel due to missing Chrome dependencies')}\""
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",

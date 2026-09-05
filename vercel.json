@@ -1,4 +1,5 @@
 {
+  "buildCommand": "tsc -b && vite build",
   "rewrites": [
     {
       "source": "/(.*)",
