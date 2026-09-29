@@ -1,11 +1,12 @@
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../lib/auth'
 import { useAuthStore } from '../lib/authStore'
 import { useState, useEffect } from 'react'
 import FeedbackWidget from './FeedbackWidget'
+import { Breadcrumbs, generateBreadcrumbs } from './Breadcrumbs'
 import {
   LayoutDashboard, FileText, Dna, Target, Map, MessageSquare,
-  LogOut, Shield, Settings, Bell, Clock, Search, ChevronLeft, PanelLeftClose
+  LogOut, Shield, Settings, Bell, Clock, Search, PanelLeftClose
 } from 'lucide-react'
 import './DashboardLayout.css'
 
@@ -36,6 +37,7 @@ export default function DashboardLayout() {
   useEffect(() => { window.localStorage.setItem("sidebar-collapsed", String(isCollapsed)) }, [isCollapsed])
   const navigate = useNavigate()
   const isAdmin = profile?.role === 'ADMIN'
+  const location = useLocation()
 
   const handleSignOut = async () => {
     await signOut()
@@ -43,6 +45,7 @@ export default function DashboardLayout() {
   }
 
   const userInitial = profile?.name?.[0]?.toUpperCase() ?? profile?.email?.[0]?.toUpperCase() ?? 'Y'
+  const breadcrumbs = generateBreadcrumbs(location.pathname)
 
   return (
     <div className="dashboard-page-root">
@@ -73,6 +76,7 @@ export default function DashboardLayout() {
                 className="text-text-muted hover:text-text transition-colors p-1"
                 onClick={(e) => { e.stopPropagation(); setIsCollapsed(true); }}
                 title="Collapse sidebar"
+                aria-label="Collapse sidebar"
               >
                 <PanelLeftClose width={18} height={18} />
               </button>
@@ -124,7 +128,7 @@ export default function DashboardLayout() {
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAqbElEQVR4nO2dZ3hU1daA31NmUkRA1IuFXqUrvRp6QFpoIRCKVEGkQ+i9dwgkkNB76EmAdDqiiIKgXBWvXkG931WstMCc9v04Zwb0WihJIJPzPo/+SMLMJHmzZu21115b8PHPZ2Bj4yWIj/oF2NhkJLbQNl6FLbSNV2ELbeNV2ELbeBW20DZehS20jVdhC23jVdhC23gVttA2XoUttI1XYQtt41XYQtt4FbbQNl6FLbSNV2ELbeNV2ELbeBW20DZehS20jVdhC23jVdhC23gVttA2XoUttI1XYQtt41XYQtt4FbbQNl6FLbSNV2ELbeNV2ELbeBW20DZehS20jVdhC23jVdhC23gVttA2XoUttI1XYQtt41XYQtt4FbbQNl6FLbSNV2ELbeNV2ELbeBW20DZehS20jVfx/0n0B24H+9YWAAAAAElFTkSuQmCC" alt="VersaCareer" style={{ height: 24 }} />
             </Link>
             <div className="flex items-center gap-2">
-              <button className="icon-btn" style={{ background: 'transparent', border: 'none' }} onClick={handleSignOut}><LogOut width={20} height={20} /></button>
+               <button className="icon-btn" aria-label="Sign out" style={{ background: 'transparent', border: 'none' }} onClick={handleSignOut}><LogOut width={20} height={20} /></button>
             </div>
           </header>
 
@@ -132,7 +136,7 @@ export default function DashboardLayout() {
             <div className="topbar">
               <div className="search-box">
                 <Search width="16" height="16" />
-                <input type="text" placeholder="Search insights, skills, roles..." />
+                 <input type="search" aria-label="Search insights, skills, and roles" placeholder="Search insights, skills, roles..." />
               </div>
               <div className="topbar-icons">
                 <ThemeToggle />
@@ -148,6 +152,11 @@ export default function DashboardLayout() {
               </div>
             </div>
 
+            {/* Breadcrumbs */}
+            <div className="px-4 md:px-8 py-2">
+              <Breadcrumbs items={breadcrumbs} className="max-w-6xl mx-auto" />
+            </div>
+
             <Outlet />
           </main>
         </div>
@@ -161,7 +170,9 @@ export default function DashboardLayout() {
 import { Sparkles, Crown } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 
-export function PageHeader({ title, subtitle, icon: Icon }: { title: string; subtitle?: string; icon?: any }) {
+import type { LucideIcon } from 'lucide-react'
+
+export function PageHeader({ title, subtitle, icon: Icon }: { title: string; subtitle?: string; icon?: LucideIcon }) {
   return (
     <div className="page-head mb-6">
       <div className="flex items-center gap-2.5 mb-1">
@@ -188,4 +199,3 @@ export function ProBadge() {
     </span>
   )
 }
-

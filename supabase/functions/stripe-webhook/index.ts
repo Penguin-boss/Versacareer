@@ -9,7 +9,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 import Stripe from "npm:stripe@17.3.1";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": "https://versacareer.com",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };

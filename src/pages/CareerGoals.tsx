@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Target, Plus, Trash2, Calendar, Flag, Check, X } from 'lucide-react'
 import { PageHeader, ProBadge } from '../components/DashboardLayout'
 import { supabase } from '../lib/supabase'
@@ -111,7 +111,7 @@ export default function CareerGoals() {
     )
   }
 
-  if (loading) return <LoadingState label="Loading goals…" />
+  if (loading) return <LoadingState label="Loading goalsΓÇª" />
   if (error) return <ErrorState message={error} onRetry={load} />
 
   return (
@@ -153,7 +153,7 @@ export default function CareerGoals() {
               </div>
             </div>
             <div className="flex gap-3">
-              <button onClick={create} disabled={saving} className="btn-primary">{saving ? 'Saving…' : 'Create goal'}</button>
+              <button onClick={create} disabled={saving} className="btn-primary">{saving ? 'SavingΓÇª' : 'Create goal'}</button>
               <button onClick={() => { setShowForm(false); setErrors({}); setForm({ title: '', description: '', target_date: '', milestone_id: '' }) }} className="btn-ghost">Cancel</button>
             </div>
           </motion.div>

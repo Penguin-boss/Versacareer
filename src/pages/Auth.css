@@ -29,26 +29,6 @@
   min-height: 100vh;
 }
 
-/* LIGHT MODE — same design language, light surfaces */
-.light .auth-page-root {
-  --ink: #F7F8FC;
-  --surface: #FFFFFF;
-  --surface-2: #F1F4F9;
-  --border: #E0E4EE;
-  --border-soft: #CED4E2;
-  --border-strong: #BFC8DC;
-  --text: #0E1424;
-  --text-muted: #586074;
-  --text-faint: #6C7488;
-  --mint: #466AB4;
-  --mint-dim: #38589C;
-  --mint-hover: #38589C;
-
-  --card-deep: #FFFFFF;
-  --btn-text: #FFFFFF;
-  --glow: rgba(70, 106, 180, 0.22);
-  --grid-line: rgba(14, 20, 36, 0.05);
-}
 
 .auth-page-root * {
   box-sizing: border-box;
@@ -98,7 +78,7 @@
 }
 .auth-page-root .brand-mark {
   width: 56px; height: 56px;
-  filter: drop-shadow(0 0 18px var(--glow));
+  
 }
 .auth-page-root .brand-name {
   font-family: var(--mono);

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { MessageSquare, Send, Sparkles } from 'lucide-react'
 import { PageHeader } from '../components/DashboardLayout'
 import { supabase, callEdgeFunction } from '../lib/supabase'
@@ -87,7 +87,7 @@ export default function Mentor() {
     }
   }
 
-  if (loading) return <LoadingState label="Loading chat…" />
+  if (loading) return <LoadingState label="Loading chatΓÇª" />
   if (error) return <ErrorState message={error} onRetry={load} />
 
   return (
@@ -159,7 +159,7 @@ export default function Mentor() {
                 aria-label="Your message to the mentor"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask your mentor…"
+                placeholder="Ask your mentorΓÇª"
                 className="input flex-1"
                 disabled={sending}
               />

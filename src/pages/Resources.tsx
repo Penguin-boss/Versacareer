@@ -7,6 +7,7 @@ import { useAuthStore } from '../lib/authStore'
 import type { Resource, ResourceType } from '../lib/types'
 import { LoadingState, ErrorState, EmptyState } from '../components/ui'
 import { fadeSlideUp, staggerContainer, fadeOnly } from '../lib/motionVariants'
+import { Helmet } from 'react-helmet-async'
 
 const TYPE_LABELS: Record<ResourceType, string> = {
   course: 'Course',
@@ -46,7 +47,7 @@ export default function Resources() {
       setLoading(false)
     }
   }
-  useEffect(() => { load() }, [user]) // eslint-disable-line
+  useEffect(() => { load() }, [user])
 
   const categories = Array.from(new Set(resources.map((r) => r.category))).sort()
   const types = Array.from(new Set(resources.map((r) => r.type)))
@@ -61,12 +62,47 @@ export default function Resources() {
     return true
   })
 
-  if (loading) return <LoadingState label="Loading resources…" />
-  if (error) return <ErrorState message={error} onRetry={load} />
+  const seo = (
+    <Helmet>
+      <title>Learning Resources — VersaCareer</title>
+      <meta name="description" content="Curated learning resources for your career growth. Courses, books, YouTube channels, GitHub repos, and roadmaps tailored to your skill gaps." />
+      <meta name="keywords" content="learning resources, career courses, programming books, coding tutorials, skill development resources, career development materials" />
+      <meta name="robots" content="noindex, follow" />
+      <link rel="canonical" href="https://versacareer.com/resources" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://versacareer.com/resources" />
+      <meta property="og:title" content="Learning Resources — VersaCareer" />
+      <meta property="og:description" content="Curated courses, books, and tutorials to close your skill gaps and advance your career." />
+      <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+      <meta property="og:site_name" content="VersaCareer" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Learning Resources — VersaCareer" />
+      <meta name="twitter:description" content="Curated courses, books, and tutorials to close your skill gaps and advance your career." />
+      <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+    </Helmet>
+  )
+
+  if (loading) {
+    return (
+      <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+        {seo}
+        <LoadingState label="Loading resources…" />
+      </motion.div>
+    )
+  }
+  if (error) {
+    return (
+      <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+        {seo}
+        <ErrorState message={error} onRetry={load} />
+      </motion.div>
+    )
+  }
 
   return (
     <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
-      <PageHeader title="Resource Library" subtitle="Curated free courses, books, GitHub projects, and learning roadmaps." icon={BookOpen} />
+      {seo}
+      <PageHeader title="Learning Resources" subtitle="Curated resources to close your skill gaps. Filter by type, category, or search." icon={BookOpen} />
 
       {/* Filters */}
       <motion.div variants={fadeSlideUp} className="card card-accent p-4 mb-6">
@@ -128,4 +164,3 @@ export default function Resources() {
     </motion.div>
   )
 }
-

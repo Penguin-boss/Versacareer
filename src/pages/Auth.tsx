@@ -205,7 +205,22 @@ export default function AuthPage() {
     return (
       <div className="auth-page-root">
         <Helmet>
-          <title>Check Your Inbox — VersaCareer</title>
+          <title>Check Your Inbox — VersaCareer | Email Verification</title>
+          <meta name="description" content="Check your email for the VersaCareer confirmation link. Click to activate your account and start your career intelligence journey." />
+          <meta name="robots" content="noindex, follow" />
+          <link rel="canonical" href="https://versacareer.com/auth?mode=check-inbox" />
+          
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://versacareer.com/auth?mode=check-inbox" />
+          <meta property="og:title" content="Check Your Inbox — VersaCareer" />
+          <meta property="og:description" content="We've sent a confirmation link to your email. Click it to activate your VersaCareer account." />
+          <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+          <meta property="og:site_name" content="VersaCareer" />
+          
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" content="Check Your Inbox — VersaCareer" />
+          <meta name="twitter:description" content="We've sent a confirmation link to your email. Click it to activate your VersaCareer account." />
+          <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
         </Helmet>
         <div className="bg-grid"></div>
         <button onClick={() => switchMode('signup')} className="back-link">
@@ -240,9 +255,50 @@ export default function AuthPage() {
   return (
     <div className="auth-page-root">
       <Helmet>
-        <title>{mode === 'signin' ? 'Sign In' : 'Sign Up'} — VersaCareer</title>
-        <meta name="description" content="Sign in or create an account for VersaCareer." />
-        <link rel="canonical" href="https://versacareer.com/auth" />
+        <title>{mode === 'signin' ? 'Sign In' : 'Create Account'} — VersaCareer | AI Career Platform</title>
+        <meta name="description" content={mode === 'signin' 
+          ? 'Sign in to VersaCareer to access your resume analyses, skill gaps, career roadmap, and mock interviews.' 
+          : 'Create your free VersaCareer account. Get 3 resume analyses/month, Career DNA assessment, skill gap analysis, and AI mentor chat. No credit card required.'} />
+        <meta name="keywords" content={mode === 'signin' 
+          ? 'VersaCareer sign in, career platform login, resume analyzer login' 
+          : 'VersaCareer sign up, create career account, free resume analysis, AI career coach'} />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href={`https://versacareer.com/auth?mode=${mode}`} />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://versacareer.com/auth?mode=${mode}`} />
+        <meta property="og:title" content={mode === 'signin' ? 'Sign In — VersaCareer' : 'Create Free Account — VersaCareer'} />
+        <meta property="og:description" content={mode === 'signin' 
+          ? 'Sign in to access your career intelligence dashboard.' 
+          : 'Create your free account. 3 resume analyses/month, skill gap analysis, career roadmap, and AI mock interviews.'} />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:site_name" content="VersaCareer" />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={mode === 'signin' ? 'Sign In — VersaCareer' : 'Create Free Account — VersaCareer'} />
+        <meta name="twitter:description" content={mode === 'signin' 
+          ? 'Sign in to access your career intelligence dashboard.' 
+          : 'Create your free account. 3 resume analyses/month, skill gap analysis, career roadmap, and AI mock interviews.'} />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta name="twitter:site" content="@versacareer" />
+        
+        {mode === 'signup' && (
+          <script type="application/ld+json">
+            {`
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Create Free VersaCareer Account",
+                "description": "Sign up for free AI-powered career intelligence. Resume analysis, skill gaps, roadmaps, and mock interviews.",
+                "url": "https://versacareer.com/auth?mode=signup",
+                "potentialAction": {
+                  "@type": "RegisterAction",
+                  "target": "https://versacareer.com/auth?mode=signup"
+                }
+              }
+            `}
+          </script>
+        )}
       </Helmet>
       <div className="bg-grid"></div>
 

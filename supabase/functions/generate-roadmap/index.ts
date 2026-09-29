@@ -5,12 +5,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { corsHeaders, isRateLimited, jsonError } from "../_shared/security.ts";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -28,11 +23,13 @@ const USER_PROMPT_TEMPLATE =
   "Order milestones by week ascending. Return only the JSON.";
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 200, headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(req) });
+  if (req.method !== "POST") return jsonError(req, "Method not allowed.", 405);
+  if (await isRateLimited(req, "generate-roadmap", 20)) return jsonError(req, "Too many requests. Please try again shortly.", 429);
   try {
     const geminiKey = Deno.env.get("GEMINI_API_KEY");
     if (!geminiKey) {
-      return new Response(JSON.stringify({ error: "AI service not configured." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "AI service not configured." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const authHeader = req.headers.get("Authorization") ?? "";
@@ -43,15 +40,15 @@ Deno.serve(async (req: Request) => {
     const userClient = createClient(supabaseUrl, authHeader.replace("Bearer ", "") || anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
     const userId = userData.user.id;
     const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
 
     const payload = await req.json();
     const targetRole: string = payload.targetRole;
-    if (!targetRole) {
-      return new Response(JSON.stringify({ error: "targetRole is required." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+     if (!targetRole || targetRole.length > 160) {
+      return new Response(JSON.stringify({ error: "targetRole is required." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Fetch latest resume analysis for context
@@ -87,12 +84,12 @@ Deno.serve(async (req: Request) => {
       try { parsed = JSON.parse(text); }
       catch { parsed = JSON.parse(text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim()); }
     } catch (err: any) {
-      return new Response(JSON.stringify({ error: `Roadmap generation failed: ${err.message}` }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: `Roadmap generation failed: ${err.message}` }), { status: 502, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const milestones = parsed?.milestones;
     if (!Array.isArray(milestones) || milestones.length === 0) {
-      return new Response(JSON.stringify({ error: "AI returned no milestones." }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "AI returned no milestones." }), { status: 502, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Delete existing milestones for this user (regenerating replaces)
@@ -111,7 +108,7 @@ Deno.serve(async (req: Request) => {
 
     const { data: inserted, error: insErr } = await admin.from("milestones").insert(rows).select("*").order("week", { ascending: true });
     if (insErr) {
-      return new Response(JSON.stringify({ error: "Failed to save roadmap." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Failed to save roadmap." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Log AI usage for admin cost monitoring
@@ -122,8 +119,8 @@ Deno.serve(async (req: Request) => {
       });
     } catch { /* non-critical */ }
 
-    return new Response(JSON.stringify({ milestones: inserted }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ milestones: inserted }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   }
 });

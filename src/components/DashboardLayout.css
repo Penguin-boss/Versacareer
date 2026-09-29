@@ -318,28 +318,6 @@
   .dashboard-page-root .kpi-row { grid-template-columns: 1fr 1fr; }
 }
 
-/* LIGHT MODE OVERRIDES FOR DASHBOARD */
-.light .dashboard-page-root {
-  --ink: #F7F8FC;
-  --surface: #FFFFFF;
-  --surface-2: #F1F4F9;
-  --border: #E0E4EE;
-  --border-soft: #CED4E2;
-  --border-strong: #BFC8DC;
-  --text: #0E1424;
-  --text-muted: #586074;
-  --text-faint: #6C7488;
-  --mint: #466AB4;
-  --mint-dim: #38589C;
-  --mint-hover: #38589C;
-  --amber: #D97706;
-  --amber-dim: #A16207;
-
-  --card-deep: #FFFFFF;
-  --btn-text: #FFFFFF;
-  --glow: rgba(70, 106, 180, 0.18);
-  --grid-line: rgba(14, 20, 36, 0.05);
-}
 
 /* COLLAPSIBLE SIDEBAR */
 .dashboard-page-root .layout.collapsed {

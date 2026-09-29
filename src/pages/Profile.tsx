@@ -10,11 +10,13 @@ import { CAREER_PATHS, EXPERIENCE_LEVELS, WORK_STYLES } from '../lib/types'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { fadeSlideUp, staggerContainer, fadeOnly } from '../lib/motionVariants'
+import { Helmet } from 'react-helmet-async'
 
 export default function Profile() {
   const { profile, setProfile } = useAuthStore()
   const { signOut } = useAuth()
   const navigate = useNavigate()
+  
   const [name, setName] = useState('')
   const [jobTitle, setJobTitle] = useState('')
   const [targetRoles, setTargetRoles] = useState<string[]>([])
@@ -22,6 +24,7 @@ export default function Profile() {
   const [workStyle, setWorkStyle] = useState('')
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
   useEffect(() => {
     if (profile) {
@@ -38,13 +41,10 @@ export default function Profile() {
     setTargetRoles((prev) => prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r])
   }
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({})
-
   const validate = () => {
     const newErrors: { [key: string]: string } = {}
     if (!name.trim()) newErrors.name = 'Full name is required'
     if (!jobTitle.trim()) newErrors.jobTitle = 'Job title is required'
-    
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -75,11 +75,51 @@ export default function Profile() {
     navigate('/')
   }
 
-  if (loading || !profile) return <LoadingState label="Loading profile…" />
+  if (loading || !profile) {
+    return (
+      <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+        <Helmet>
+          <title>Profile & Settings — VersaCareer</title>
+          <meta name="description" content="Manage your VersaCareer profile, career preferences, target roles, and account settings." />
+          <meta name="keywords" content="profile settings, career preferences, target roles, account management, career goals" />
+          <meta name="robots" content="noindex, follow" />
+          <link rel="canonical" href="https://versacareer.com/profile" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://versacareer.com/profile" />
+          <meta property="og:title" content="Profile & Settings — VersaCareer" />
+          <meta property="og:description" content="Manage your profile, career preferences, and account settings." />
+          <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+          <meta property="og:site_name" content="VersaCareer" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" content="Profile & Settings — VersaCareer" />
+          <meta name="twitter:description" content="Manage your profile, career preferences, and account settings." />
+          <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        </Helmet>
+        <LoadingState label="Loading profile…" />
+      </motion.div>
+    )
+  }
 
   return (
     <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
-      <PageHeader title="Profile" subtitle="Manage your account details." icon={UserIcon} />
+      <Helmet>
+        <title>Profile & Settings — VersaCareer</title>
+        <meta name="description" content="Manage your VersaCareer profile, career preferences, target roles, and account settings." />
+        <meta name="keywords" content="profile settings, career preferences, target roles, account management, career goals" />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://versacareer.com/profile" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://versacareer.com/profile" />
+        <meta property="og:title" content="Profile & Settings — VersaCareer" />
+        <meta property="og:description" content="Manage your profile, career preferences, and account settings." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:site_name" content="VersaCareer" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Profile & Settings — VersaCareer" />
+        <meta name="twitter:description" content="Manage your profile, career preferences, and account settings." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+      </Helmet>
+      <PageHeader title="Profile & Settings" subtitle="Manage your profile, career preferences, and account." icon={UserIcon} />
 
       <motion.div variants={staggerContainer(60)} initial="hidden" animate="visible" className="grid md:grid-cols-3 gap-6">
         <motion.div variants={fadeSlideUp} className="card p-6">

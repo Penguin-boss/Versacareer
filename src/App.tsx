@@ -25,6 +25,7 @@ const Admin = React.lazy(() => import('./pages/Admin'))
 const NotFound = React.lazy(() => import('./pages/NotFound'))
 import { usePageFade } from './lib/motionVariants'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { RouteMeta } from './components/RouteMeta'
 
 function Protected({ children }: { children: JSX.Element }) {
   const { user, loading, profile } = useAuthStore()
@@ -47,11 +48,12 @@ function AdminRoute({ children }: { children: JSX.Element }) {
 }
 
 export default function App() {
-  const { user, loading } = useAuthStore()
   const location = useLocation()
   const pageFade = usePageFade()
 
   return (
+    <>
+    <RouteMeta />
     <AnimatePresence mode="wait">
     <motion.div key={location.pathname} initial={pageFade.initial} animate={pageFade.animate} exit={pageFade.exit}>
     <Suspense fallback={<FullLoader />}>
@@ -84,5 +86,6 @@ export default function App() {
     </Suspense>
     </motion.div>
     </AnimatePresence>
+    </>
   )
 }

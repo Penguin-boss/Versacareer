@@ -13,12 +13,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 import Stripe from "npm:stripe@17.3.1";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { corsHeaders, isRateLimited, jsonError } from "../_shared/security.ts";
 
 const PRICES = {
   PRO_MONTHLY: 29900,       // ₹299.00 in paise
@@ -44,13 +39,15 @@ function getFounderPricePaiseForPosition(position: number): number {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 200, headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(req) });
+  if (req.method !== "POST") return jsonError(req, "Method not allowed.", 405);
+  if (await isRateLimited(req, "create-checkout", 10)) return jsonError(req, "Too many requests. Please try again shortly.", 429);
   try {
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) {
       return new Response(JSON.stringify({
         error: "Payments are not yet configured. Add STRIPE_SECRET_KEY to enable checkout.",
-      }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }), { status: 503, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const authHeader = req.headers.get("Authorization") ?? "";
@@ -63,7 +60,7 @@ Deno.serve(async (req: Request) => {
     });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
     const userId = userData.user.id;
     const email = userData.user.email ?? "";
@@ -77,7 +74,7 @@ Deno.serve(async (req: Request) => {
     const cycle = body?.cycle as string;  // "MONTHLY" | "YEARLY" (ignored for FOUNDER)
 
     if (!planKey || !["PRO", "PRO_PLUS", "FOUNDER"].includes(planKey)) {
-      return new Response(JSON.stringify({ error: "Invalid plan." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Invalid plan." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const { data: profile } = await admin.from("profiles").select("plan,is_founder").eq("id", userId).maybeSingle();
@@ -85,7 +82,7 @@ Deno.serve(async (req: Request) => {
     const isFounder = (profile as any)?.is_founder === true;
 
     if (isFounder || currentPlan === "PRO_PLUS") {
-      return new Response(JSON.stringify({ error: "You already have top-tier access." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "You already have top-tier access." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2024-12-18.acacia" as any });
@@ -102,7 +99,7 @@ Deno.serve(async (req: Request) => {
         return new Response(JSON.stringify({
           error: "The Founder Pass is sold out. Thank you for your interest!",
           code: "FOUNDER_SOLD_OUT",
-        }), { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        }), { status: 409, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       const expectedPosition = sold + 1;
@@ -129,7 +126,7 @@ Deno.serve(async (req: Request) => {
           expected_position: String(expectedPosition),
         },
       });
-      return new Response(JSON.stringify({ url: session.url }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ url: session.url }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Subscription mode (PRO / PRO_PLUS)
@@ -161,8 +158,8 @@ Deno.serve(async (req: Request) => {
       },
     });
 
-    return new Response(JSON.stringify({ url: session.url }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ url: session.url }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message ?? "Checkout failed." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: err.message ?? "Checkout failed." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   }
 });

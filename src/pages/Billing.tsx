@@ -7,6 +7,7 @@ import { supabase, callEdgeFunction } from '../lib/supabase'
 import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import { fadeSlideUp, staggerContainer, fadeOnly } from '../lib/motionVariants'
+import { Helmet } from 'react-helmet-async'
 
 type Billing = 'monthly' | 'yearly'
 
@@ -98,7 +99,27 @@ export default function Billing() {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
-      <PageHeader title="Billing & Plans" subtitle="Manage your subscription. Upgrade to unlock the full platform." icon={Crown} />
+      <Helmet>
+        <title>Billing & Subscription — VersaCareer</title>
+        <meta name="description" content="Manage your VersaCareer subscription. View billing history, update payment method, change plans, or upgrade to Pro, Pro+, or Lifetime Founder Pass." />
+        <meta name="keywords" content="billing management, subscription management, payment method, invoice history, plan upgrade, cancel subscription" />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://versacareer.com/billing" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://versacareer.com/billing" />
+        <meta property="og:title" content="Billing & Subscription — VersaCareer" />
+        <meta property="og:description" content="Manage your subscription, view invoices, and upgrade your plan." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:site_name" content="VersaCareer" />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Billing & Subscription — VersaCareer" />
+        <meta name="twitter:description" content="Manage your subscription, view invoices, and upgrade your plan." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+      </Helmet>
+      
+      <PageHeader title="Billing & Subscription" subtitle="Manage your plan, payment method, and billing history." icon={Crown} />
 
       {/* Current plan banner */}
       <motion.div variants={fadeSlideUp} className="card p-5 mb-6 flex items-center justify-between card-hover">
@@ -259,7 +280,7 @@ function PlanCard({
   highlight?: boolean
 }) {
   return (
-    <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'card-accent shadow-glow' : ''}`}>
+    <motion.div variants={fadeSlideUp} className={`card p-6 flex flex-col relative card-hover ${highlight ? 'card-accent' : ''}`}>
       {badge && <div className="absolute -top-3 right-5 badge bg-primary text-onprimary border border-primary/20">{badge}</div>}
       <div className="flex items-center gap-2 mb-1">
         {icon}

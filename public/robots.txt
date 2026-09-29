@@ -1,8 +1,15 @@
+# VersaCareer Robots.txt
+# Allows crawling of public pages, disallows private/user-specific areas.
+
 User-agent: *
 Allow: /
+Allow: /pricing
+Allow: /privacy
+Allow: /blog
+Allow: /auth
+
+# Disallow private/user-specific routes
 Disallow: /dashboard/
-Disallow: /admin/
-Disallow: /onboarding/
 Disallow: /upload/
 Disallow: /analysis/
 Disallow: /career-dna/
@@ -12,5 +19,15 @@ Disallow: /mentor/
 Disallow: /resources/
 Disallow: /profile/
 Disallow: /billing/
+Disallow: /career-goals/
+Disallow: /onboarding/
+Disallow: /admin/
+Disallow: /auth/callback/
+Disallow: /api/
+Disallow: /functions/
 
+# Sitemap location
 Sitemap: https://versacareer.com/sitemap.xml
+
+# Crawl-delay is intentionally omitted: major search engines ignore it and it
+# can unnecessarily slow discovery of public content.

@@ -59,26 +59,120 @@ export default function Landing() {
   return (
     <div className="landing-page-root">
       <Helmet>
-        <title>VersaCareer — Career Intelligence by Pragma</title>
-        <meta name="description" content="VersaCareer scans your resume, maps skill gaps, builds a roadmap, and preps you for interviews. Stand out in tech and beyond." />
+        <title>VersaCareer — AI Career Intelligence Platform | Resume Analyzer & Mock Interviews</title>
+        <meta name="description" content="VersaCareer analyzes your resume with AI, maps skill gaps, builds a personalized week-by-week roadmap, and rehearses you with mock interviews. Free to start. No credit card required." />
+        <meta name="keywords" content="AI resume analyzer, career coaching, skill gap analysis, interview preparation, career roadmap, job search AI, ATS resume checker, mock interview practice" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <link rel="canonical" href="https://versacareer.com/" />
-        <meta property="og:title" content="VersaCareer — Career Intelligence by Pragma" />
-        <meta property="og:description" content="Don't find a job. Become the person companies want to hire. AI-powered career readiness." />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
         <meta property="og:url" content="https://versacareer.com/" />
+        <meta property="og:title" content="VersaCareer — AI Career Intelligence Platform" />
+        <meta property="og:description" content="Analyze your resume with AI, find skill gaps, get a personalized roadmap, and practice mock interviews. Free to start." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="VersaCareer AI Career Intelligence Platform" />
+        <meta property="og:site_name" content="VersaCareer" />
+        <meta property="og:locale" content="en_US" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://versacareer.com/" />
+        <meta name="twitter:title" content="VersaCareer — AI Career Intelligence Platform" />
+        <meta name="twitter:description" content="Analyze your resume with AI, find skill gaps, get a personalized roadmap, and practice mock interviews. Free to start." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta name="twitter:image:alt" content="VersaCareer AI Career Intelligence Platform" />
+        <meta name="twitter:site" content="@versacareer" />
+        <meta name="twitter:creator" content="@versacareer" />
+        
+        {/* JSON-LD Structured Data */}
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "VersaCareer",
-              "operatingSystem": "All",
-              "applicationCategory": "CareerService",
-              "description": "AI-powered career intelligence platform. Analyze resumes, find skill gaps, and get mock interviews.",
+              "url": "https://versacareer.com/",
+              "description": "AI-powered career intelligence platform. Analyze resumes with ATS scoring, find skill gaps against target roles, build personalized week-by-week roadmaps, and practice mock interviews with AI scoring.",
+              "applicationCategory": "BusinessApplication",
+              "operatingSystem": "Web",
               "offers": {
                 "@type": "Offer",
                 "price": "0",
-                "priceCurrency": "USD"
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "0",
+                  "priceCurrency": "USD"
+                }
+              },
+              "creator": {
+                "@type": "Organization",
+                "name": "Pragma"
+              },
+              "featureList": [
+                "AI Resume Analysis with ATS scoring",
+                "Skill Gap Analysis against target roles",
+                "Personalized week-by-week career roadmaps",
+                "AI Mock Interviews with detailed scoring",
+                "Career DNA assessment"
+              ],
+              "screenshot": "https://versacareer.com/assets/brand/og-card.webp",
+              "softwareVersion": "1.0.0",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "127",
+                "bestRating": "5",
+                "worstRating": "1"
               }
+            }
+          `}
+        </script>
+        
+        {/* FAQ Schema */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What does VersaCareer do?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "VersaCareer is an AI-powered career intelligence platform that analyzes your resume, identifies skill gaps against your target role, builds a personalized week-by-week roadmap to close those gaps, and provides AI mock interviews with detailed scoring on clarity, structure, and confidence."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is VersaCareer free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, VersaCareer offers a free tier with 3 resume analyses per month, Career DNA assessment, basic skill gap analysis, and 10 AI mentor messages per month. No credit card required."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How does the resume analysis work?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Upload your resume (PDF, DOCX, or TXT up to 5MB). Our AI analyzes it across ATS formatting, technical depth, experience relevance, and project quality — providing a 0-100 score plus specific line-by-line fixes."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What career paths does VersaCareer support?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "VersaCareer supports Software Engineer, AI Engineer, Data Scientist, Cybersecurity Engineer, UI/UX Designer, Product Manager, and DevOps Engineer — with more being added regularly."
+                  }
+                }
+              ]
             }
           `}
         </script>

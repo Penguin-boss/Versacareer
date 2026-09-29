@@ -49,35 +49,7 @@
   --color-error: 239 68 68;        /* #EF4444 */
 }
 
-.light {
-  --color-bg: 247 248 252;         /* #F7F8FC */
-  --color-bg-soft: 255 255 255;
-  --color-card: 255 255 255;
-  --color-elev: 241 244 249;       /* #F1F4F9 */
 
-  --color-text: 14 20 36;          /* #0E1424 */
-  --color-text-muted: 88 96 116;   /* #586074 */
-  --color-text-faint: 108 116 136; /* #6C7488 */
-
-  --color-border: 224 228 238;     /* #E0E4EE */
-  --color-border-soft: 206 212 226;/* #CED4E2 */
-
-  --color-primary: 70 106 180;     /* #466AB4  deeper mint-blue for contrast */
-  --color-primary-hover: 56 88 156;/* #38589C */
-  --color-primary-deep: 44 72 134; /* #2C4886 */
-  --color-primary-soft: 230 237 250;/* #E6EDFA */
-
-  --color-accent: 70 106 180;
-  --color-accent-soft: 230 237 250;
-
-  --color-warm: 217 119 6;         /* #D97706 */
-
-  --color-btn-text: 255 255 255;
-
-  --color-success: 22 163 74;
-  --color-warning: 217 119 6;      /* #D97706 */
-  --color-error: 220 38 38;
-}
 
 /* ================================================================
    BASE
@@ -265,3 +237,4 @@
     transition-duration: 0.001ms !important;
   }
 }
+@media (max-width: 900px) { .btn, .icon-btn, .oauth-btn, .nav-item { min-height: 44px; min-width: 44px; } }

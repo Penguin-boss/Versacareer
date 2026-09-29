@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+﻿import { useEffect, useState, useMemo } from 'react'
 import { Dna, ArrowRight, ArrowLeft, RotateCcw, Target, Check } from 'lucide-react'
 import { PageHeader } from '../components/DashboardLayout'
 import { supabase, callEdgeFunction } from '../lib/supabase'
@@ -82,7 +82,7 @@ export default function CareerDNA() {
   const submit = async () => {
     setSaving(true)
     try {
-      const res = await callEdgeFunction('score-career-dna', { answers })
+      const res = await callEdgeFunction<{ result: { trait_vector: TraitVector; top_matches: Array<{ career: string; match_percent: number }> } }>('score-career-dna', { answers })
       setResult({
         traitVector: res.result.trait_vector,
         topMatches: res.result.top_matches.map((m: any) => ({
@@ -125,7 +125,7 @@ export default function CareerDNA() {
     }
   }
 
-  if (loading) return <LoadingState label="Loading Career DNA…" />
+  if (loading) return <LoadingState label="Loading Career DNAΓÇª" />
 
   // Show existing results if available and not in question flow
   if (existing && phase === 'intro') {
@@ -249,7 +249,7 @@ export default function CareerDNA() {
               </button>
               {isLast ? (
                 <button onClick={submit} disabled={!isAnswered || saving} className="btn-accent">
-                  {saving ? 'Computing…' : 'See results'} <ArrowRight className="h-4 w-4" />
+                  {saving ? 'ComputingΓÇª' : 'See results'} <ArrowRight className="h-4 w-4" />
                 </button>
               ) : (
                 <button onClick={next} disabled={!isAnswered} className="btn-accent">
@@ -266,7 +266,7 @@ export default function CareerDNA() {
   return null
 }
 
-// ── Results View ─────────────────────────────────────────────────────────────
+// ΓöÇΓöÇ Results View ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
 function ResultsView({
   result, onRetake, onSetTargetRole, settingRole,
@@ -299,7 +299,7 @@ function ResultsView({
         animate="visible"
         className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto"
       >
-        {/* Left column — Trait Profile */}
+        {/* Left column ΓÇö Trait Profile */}
         <motion.div variants={fadeSlideUp} className="card p-6 min-w-0">
           <h3 className="font-display font-medium text-lg mb-4 diamond-accent">Trait Profile</h3>
           <div style={{ width: '100%', height: 360 }}>
@@ -331,7 +331,7 @@ function ResultsView({
           </div>
         </motion.div>
 
-        {/* Right column — Career Matches */}
+        {/* Right column ΓÇö Career Matches */}
         <motion.div variants={fadeSlideUp} className="card p-6 min-w-0 card-accent">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-display font-medium text-lg diamond-accent">Career Matches</h3>

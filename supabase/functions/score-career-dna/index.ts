@@ -1,15 +1,12 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
+import { corsHeaders, isRateLimited, jsonError } from "../_shared/security.ts";
 import { scoreAssessment } from "./scoring.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
-
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 200, headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(req) });
+  if (req.method !== "POST") return jsonError(req, "Method not allowed.", 405);
+  if (await isRateLimited(req, "score-career-dna", 20)) return jsonError(req, "Too many requests. Please try again shortly.", 429);
   
   try {
     const authHeader = req.headers.get("Authorization") ?? "";
@@ -23,13 +20,13 @@ Deno.serve(async (req: Request) => {
     
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
     const userId = userData.user.id;
 
     const { answers } = await req.json();
     if (!answers) {
-      return new Response(JSON.stringify({ error: "Missing answers." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Missing answers." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const scored = scoreAssessment(answers);
@@ -51,9 +48,9 @@ Deno.serve(async (req: Request) => {
        throw error;
     }
 
-    return new Response(JSON.stringify({ result: data }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ result: data }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
 
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   }
 });

@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import { fadeSlideUp, staggerContainer, fadeOnly } from '../lib/motionVariants'
+import { Helmet } from 'react-helmet-async'
 
 export default function Roadmap() {
   const { user, profile } = useAuthStore()
@@ -47,7 +48,7 @@ export default function Roadmap() {
       setLoading(false)
     }
   }
-  useEffect(() => { load() }, [user]) // eslint-disable-line
+  useEffect(() => { load() }, [user])
 
   const updateStatus = async (id: string, status: Milestone['status']) => {
     setMilestones((prev) => prev.map((m) => m.id === id ? { ...m, status } : m))
@@ -71,19 +72,56 @@ export default function Roadmap() {
     }
   }
 
-  if (loading) return <LoadingState label="Loading roadmap…" />
-  if (error) return <ErrorState message={error} onRetry={load} />
+  const seo = (
+    <Helmet>
+      <title>Career Roadmap — VersaCareer</title>
+      <meta name="description" content="Your personalized week-by-week career roadmap. Track milestones, close skill gaps, and become interview-ready with a structured plan." />
+      <meta name="keywords" content="career roadmap, personalized career plan, week-by-week milestones, skill development plan, interview preparation roadmap" />
+      <meta name="robots" content="noindex, follow" />
+      <link rel="canonical" href="https://versacareer.com/roadmap" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://versacareer.com/roadmap" />
+      <meta property="og:title" content="Career Roadmap — VersaCareer" />
+      <meta property="og:description" content="Your personalized week-by-week plan to close skill gaps and become interview-ready." />
+      <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+      <meta property="og:site_name" content="VersaCareer" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Career Roadmap — VersaCareer" />
+      <meta name="twitter:description" content="Your personalized week-by-week plan to close skill gaps and become interview-ready." />
+      <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+    </Helmet>
+  )
+
+  if (loading) {
+    return (
+      <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+        {seo}
+        <LoadingState label="Loading roadmap…" />
+      </motion.div>
+    )
+  }
+  if (error) {
+    return (
+      <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+        {seo}
+        <ErrorState message={error} onRetry={load} />
+      </motion.div>
+    )
+  }
 
   const hasResume = !!latest
 
   if (!hasResume) {
     return (
-      <EmptyState
-        icon={Map}
-        title="Analyze your resume first"
-        description="We generate your roadmap based on your detected skills and gaps. Upload a resume to get started."
-        action={<Link to="/upload" className="btn-primary">Upload your resume</Link>}
-      />
+      <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+        {seo}
+        <EmptyState
+          icon={Map}
+          title="Analyze your resume first"
+          description="We generate your roadmap based on your detected skills and gaps. Upload a resume to get started."
+          action={<Link to="/upload" className="btn-primary">Upload your resume</Link>}
+        />
+      </motion.div>
     )
   }
 
@@ -92,6 +130,7 @@ export default function Roadmap() {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+      {seo}
       <PageHeader title="Career Roadmap" subtitle="A week-by-week plan to close your gaps. Progress is saved across devices." icon={Map} />
 
       {milestones.length > 0 && (

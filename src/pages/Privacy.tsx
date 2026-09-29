@@ -9,9 +9,27 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-bg relative overflow-hidden">
       <Helmet>
-        <title>Privacy Policy — VersaCareer</title>
-        <meta name="description" content="Privacy Policy for VersaCareer. Learn how we handle your data." />
+        <title>Privacy Policy — VersaCareer | Data Protection & User Rights</title>
+        <meta name="description" content="VersaCareer Privacy Policy. Learn what data we collect, how we use it, your rights under GDPR/CCPA, and how we protect your resume and career information. Last updated August 2026." />
+        <meta name="keywords" content="privacy policy, data protection, GDPR, CCPA, resume data privacy, AI career platform privacy" />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://versacareer.com/privacy" />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://versacareer.com/privacy" />
+        <meta property="og:title" content="Privacy Policy — VersaCareer" />
+        <meta property="og:description" content="Learn how VersaCareer handles your data, your rights, and our commitment to privacy." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:site_name" content="VersaCareer" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:url" content="https://versacareer.com/privacy" />
+        <meta name="twitter:title" content="Privacy Policy — VersaCareer" />
+        <meta name="twitter:description" content="Learn how VersaCareer handles your data, your rights, and our commitment to privacy." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta name="twitter:site" content="@versacareer" />
       </Helmet>
       <AmbientBackground />
       {/* Nav */}

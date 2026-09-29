@@ -6,12 +6,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { corsHeaders, isRateLimited, jsonError } from "../_shared/security.ts";
 
 const FREE_ANALYSES_PER_MONTH = 3;
 const ABUSE_CEILING = 500; // internal cap on "Unlimited" — never surfaced in marketing
@@ -131,11 +126,13 @@ async function extractTextFromDocxBytes(bytes: Uint8Array): Promise<string> {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 200, headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(req) });
+  if (req.method !== "POST") return jsonError(req, "Method not allowed.", 405);
+  if (await isRateLimited(req, "analyze-resume", 10)) return jsonError(req, "Too many requests. Please try again shortly.", 429);
   try {
     const geminiKey = Deno.env.get("GEMINI_API_KEY");
     if (!geminiKey) {
-      return new Response(JSON.stringify({ error: "AI service not configured." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "AI service not configured." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const authHeader = req.headers.get("Authorization") ?? "";
@@ -149,7 +146,7 @@ Deno.serve(async (req: Request) => {
     });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
     const userId = userData.user.id;
     const email = userData.user.email ?? "";
@@ -176,7 +173,7 @@ Deno.serve(async (req: Request) => {
       return new Response(JSON.stringify({
         error: "You've reached your monthly resume analysis limit. Upgrade to Pro for unlimited.",
         code: "RESUME_ANALYSIS_LIMIT_REACHED",
-      }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }), { status: 403, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Parse request body
@@ -185,7 +182,7 @@ Deno.serve(async (req: Request) => {
     const mimeType: string = payload.mimeType;
     const base64: string = payload.base64;
     if (!fileName || !mimeType || !base64) {
-      return new Response(JSON.stringify({ error: "Missing file data." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Missing file data." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Decode + validate size
@@ -193,7 +190,7 @@ Deno.serve(async (req: Request) => {
     const bytes = new Uint8Array(binary.length);
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
     if (bytes.length > MAX_FILE_BYTES) {
-      return new Response(JSON.stringify({ error: "File exceeds 5MB limit." }), { status: 413, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "File exceeds 5MB limit." }), { status: 413, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Validate type
@@ -202,7 +199,7 @@ Deno.serve(async (req: Request) => {
     const isDocx = mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || lower.endsWith(".docx");
     const isTxt = mimeType === "text/plain" || lower.endsWith(".txt");
     if (!isPdf && !isDocx && !isTxt) {
-      return new Response(JSON.stringify({ error: "Only PDF, DOCX, and TXT files are supported." }), { status: 415, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Only PDF, DOCX, and TXT files are supported." }), { status: 415, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Extract text server-side
@@ -219,7 +216,7 @@ Deno.serve(async (req: Request) => {
         extractedText = await extractTextFromDocxBytes(bytes);
       }
     } catch (err: any) {
-      return new Response(JSON.stringify({ error: `Failed to extract text from file: ${err.message}` }), { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: `Failed to extract text from file: ${err.message}` }), { status: 422, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
     if (!extractedText || extractedText.trim().length < 20) {
       // Scanned/image-only PDF: pdfjs opened the file and found pages,
@@ -229,9 +226,9 @@ Deno.serve(async (req: Request) => {
         return new Response(JSON.stringify({
           error: "This looks like a scanned or image-based PDF, which we can't read text from yet. Please upload a resume exported directly from Word/Google Docs, or a text-based PDF, rather than a scanned photo or image.",
           code: "SCANNED_PDF_DETECTED",
-        }), { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        }), { status: 422, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
-      return new Response(JSON.stringify({ error: "Could not extract enough text from the file. Is it a valid resume?" }), { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Could not extract enough text from the file. Is it a valid resume?" }), { status: 422, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Call Gemini
@@ -239,14 +236,14 @@ Deno.serve(async (req: Request) => {
     try {
       analysis = await callGeminiWithRetry(extractedText, geminiKey);
     } catch (err: any) {
-      return new Response(JSON.stringify({ error: `AI analysis failed: ${err.message}` }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: `AI analysis failed: ${err.message}` }), { status: 502, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Validate the AI output shape — do NOT silently substitute filler
     const required = ["atsScore", "technicalScore", "experienceScore", "projectScore", "overallScore", "strengths", "weaknesses", "suggestions", "currentSkills", "missingSkills", "atsReport"];
     const missing = required.filter((k) => analysis[k] === undefined || analysis[k] === null);
     if (missing.length) {
-      return new Response(JSON.stringify({ error: `AI returned incomplete analysis (missing: ${missing.join(", ")}). Please try again.` }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: `AI returned incomplete analysis (missing: ${missing.join(", ")}). Please try again.` }), { status: 502, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Clamp scores
@@ -276,7 +273,7 @@ Deno.serve(async (req: Request) => {
 
     const { data: inserted, error: insertErr } = await admin.from("resume_analyses").insert(row).select("*").single();
     if (insertErr || !inserted) {
-      return new Response(JSON.stringify({ error: "Failed to save analysis." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Failed to save analysis." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Log AI usage for admin cost monitoring
@@ -293,9 +290,9 @@ Deno.serve(async (req: Request) => {
 
     return new Response(JSON.stringify({ analysis: inserted }), {
       status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsHeaders(req), "Content-Type": "application/json" },
     });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   }
 });

@@ -12,6 +12,7 @@ import { fadeSlideUp, staggerContainer, fadeOnly } from '../lib/motionVariants'
 import { useCountUp } from '../lib/useCountUp'
 import { useReducedMotion } from '../lib/useReducedMotion'
 import analysisBanner from '../assets/analysis-header-banner.png'
+import { Helmet } from 'react-helmet-async'
 
 export default function Analysis() {
   const { user } = useAuthStore()
@@ -46,7 +47,7 @@ export default function Analysis() {
     }
   }
 
-  useEffect(() => { load() }, [user, newId]) // eslint-disable-line
+  useEffect(() => { load() }, [user, newId])
 
   if (loading) return <LoadingState label="Loading your analyses…" />
   if (error) return <ErrorState message={error} onRetry={load} />
@@ -65,13 +66,31 @@ export default function Analysis() {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={fadeOnly}>
+      <Helmet>
+        <title>Resume Analysis Report — VersaCareer</title>
+        <meta name="description" content="View your AI-powered resume analysis report. See ATS score, technical depth, experience relevance, and project quality scores with detailed feedback." />
+        <meta name="keywords" content="resume analysis report, ATS score, resume feedback, skill gaps, career analysis, interview preparation" />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://versacareer.com/analysis" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://versacareer.com/analysis" />
+        <meta property="og:title" content="Resume Analysis Report — VersaCareer" />
+        <meta property="og:description" content="Your AI-powered resume analysis with ATS, technical, experience, and project scores." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:site_name" content="VersaCareer" />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Resume Analysis Report — VersaCareer" />
+        <meta name="twitter:description" content="Your AI-powered resume analysis with ATS, technical, experience, and project scores." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+      </Helmet>
       <PageHeader
         title="Resume Analysis"
         subtitle="Your latest AI analysis. Scores are 0-100; higher is better."
         icon={FileText}
       />
 
-      {/* Header banner — fades in first, no loop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -88,9 +107,7 @@ export default function Analysis() {
       </motion.div>
 
       <motion.div variants={staggerContainer(60)} initial="hidden" animate="visible" className="grid lg:grid-cols-3 gap-6">
-        {/* Main */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Score gauges — stagger starts ~150ms after banner begins */}
           <motion.div variants={fadeSlideUp} className="card card-accent p-6 card-hover">
             <ScoreGauges current={current} />
             {current.suitable_roles_text && (
@@ -101,7 +118,6 @@ export default function Analysis() {
             )}
           </motion.div>
 
-          {/* Detail lists — fade in after gauges */}
           <motion.div
             variants={staggerContainer(90)}
             initial="hidden"
@@ -189,7 +205,6 @@ export default function Analysis() {
           )}
         </div>
 
-        {/* History sidebar */}
         <div>
           <motion.div variants={fadeSlideUp} className="card p-5 card-hover">
             <h3 className="flex items-center gap-2 font-medium mb-4 text-sm">
@@ -228,8 +243,6 @@ export default function Analysis() {
   )
 }
 
-// Scores are driven by useCountUp so each gauge counts up independently
-// with a staggered delay: ATS at 150ms, Technical at 250ms, etc.
 function ScoreGauges({ current }: { current: ResumeAnalysis }) {
   const reduced = useReducedMotion()
   const gaugeDelay = (i: number) => reduced ? 0 : 150 + i * 100

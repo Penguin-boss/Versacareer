@@ -1,32 +1,142 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
-      (function() {
-        try {
-          var t = localStorage.getItem('versacareer-theme');
-          if (t === 'light') document.documentElement.classList.add('light');
-        } catch (e) {}
-      })();
-    </script>
     <meta charset="UTF-8" />
     <link rel="icon" href="/assets/brand/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/assets/brand/icon-512.webp" />
     <link rel="icon" type="image/png" sizes="512x512" href="/assets/brand/icon-512.webp" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/icon-192.webp" />
     <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.webp" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#0A0A08" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="VersaCareer — AI-powered Career Intelligence Platform by Pragma. Understand where you stand and what to do next." />
-    <meta property="og:title" content="VersaCareer — Career Intelligence by Pragma" />
-    <meta property="og:description" content="Analyze. Upskill. Succeed." />
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="VersaCareer — AI Career Intelligence Platform by Pragma" />
+    <meta name="description" content="VersaCareer analyzes your resume with AI, maps skill gaps, builds a personalized roadmap, and rehearses you with mock interviews. Stand out in tech and beyond. Free to start." />
+    <meta name="keywords" content="AI resume analyzer, career coaching, skill gap analysis, interview preparation, career roadmap, job search AI, ATS resume checker, mock interview practice" />
+    <meta name="author" content="Pragma" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/assets/brand/og-card.webp" />
+    <meta property="og:url" content="https://versacareer.com/" />
+    <meta property="og:title" content="VersaCareer — AI Career Intelligence Platform by Pragma" />
+    <meta property="og:description" content="Analyze your resume with AI, find skill gaps, get a personalized roadmap, and practice mock interviews. Free to start." />
+    <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <meta property="og:image:alt" content="VersaCareer AI Career Intelligence Platform" />
+    <meta property="og:site_name" content="VersaCareer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://versacareer.com/" />
+    <meta name="twitter:title" content="VersaCareer — AI Career Intelligence Platform by Pragma" />
+    <meta name="twitter:description" content="Analyze your resume with AI, find skill gaps, get a personalized roadmap, and practice mock interviews. Free to start." />
+    <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+    <meta name="twitter:image:alt" content="VersaCareer AI Career Intelligence Platform" />
+    <meta name="twitter:site" content="@versacareer" />
+    <meta name="twitter:creator" content="@versacareer" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://versacareer.com/" />
+    
+    <!-- Preconnect for critical third-party origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <title>VersaCareer — Career Intelligence by Pragma</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    
+    <!-- DNS Prefetch for other origins -->
+    <link rel="dns-prefetch" href="https://vercel.live" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <link rel="preload" as="image" type="image/webp" href="/assets/brand/og-card.webp" />
+    <link rel="preload" as="image" type="image/webp" href="/assets/brand/VersaCareer_Logo_Dark.webp" />
+    
+    <!-- Fonts with font-display swap -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" /></noscript>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "VersaCareer",
+      "url": "https://versacareer.com/",
+      "description": "AI-powered career intelligence platform. Analyze resumes, find skill gaps, build personalized roadmaps, and practice mock interviews.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Pragma",
+        "url": "https://versacareer.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Pragma",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://versacareer.com/assets/brand/icon-512.webp"
+        }
+      },
+      "featureList": [
+        "AI Resume Analysis with ATS scoring",
+        "Skill Gap Analysis against target roles",
+        "Personalized week-by-week career roadmaps",
+        "AI Mock Interviews with scoring",
+        "Career DNA assessment"
+      ],
+      "screenshot": "https://versacareer.com/assets/brand/og-card.webp",
+      "softwareVersion": "1.0.0",
+      "datePublished": "2024-01-15",
+      "dateModified": "2026-09-16"
+    }
+    </script>
+    
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "VersaCareer",
+      "alternateName": "VersaCareer by Pragma",
+      "url": "https://versacareer.com/",
+      "logo": "https://versacareer.com/assets/brand/icon-512.webp",
+      "sameAs": [
+        "https://twitter.com/versacareer",
+        "https://linkedin.com/company/versacareer",
+        "https://github.com/versacareer"
+      ]
+    }
+    </script>
+    
+    <!-- WebSite Schema for Sitelinks Searchbox -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://versacareer.com/",
+      "name": "VersaCareer"
+    }
+    </script>
+    
+    <title>VersaCareer — AI Career Intelligence Platform by Pragma</title>
   </head>
   <body class="bg-bg text-text">
     <div id="root"></div>

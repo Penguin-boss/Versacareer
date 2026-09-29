@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useAuthStore } from '../lib/authStore'
 import { fadeOnly } from '../lib/motionVariants'
+import { Helmet } from 'react-helmet-async'
 import './Landing.css'
 
 export default function NotFound() {
@@ -19,6 +20,26 @@ export default function NotFound() {
       variants={fadeOnly}
       className="landing-page-root nf-page"
     >
+      <Helmet>
+        <title>Page Not Found — VersaCareer</title>
+        <meta name="description" content="The page you're looking for doesn't exist. Let us help you find what you need - resume analyzer, career roadmap, skill gap analysis, or mock interviews." />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://versacareer.com/404" />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://versacareer.com/404" />
+        <meta property="og:title" content="Page Not Found — VersaCareer" />
+        <meta property="og:description" content="The page you're looking for doesn't exist. Let us help you find what you need." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:site_name" content="VersaCareer" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Page Not Found — VersaCareer" />
+        <meta name="twitter:description" content="The page you're looking for doesn't exist. Let us help you find what you need." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+      </Helmet>
       <div className="bg-grid"></div>
 
       <header>

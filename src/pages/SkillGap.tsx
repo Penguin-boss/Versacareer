@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Target, ChevronDown } from 'lucide-react'
 import { PageHeader } from '../components/DashboardLayout'
 import { supabase } from '../lib/supabase'
@@ -92,14 +92,14 @@ export default function SkillGap() {
   }
   useEffect(() => { load() }, [user]) // eslint-disable-line
 
-  if (loading) return <LoadingState label="Loading skill data…" />
+  if (loading) return <LoadingState label="Loading skill dataΓÇª" />
   if (error) return <ErrorState message={error} onRetry={load} />
   if (!latest) {
     return (
       <EmptyState
         icon={Target}
         title="No resume analysis yet"
-        description="Analyze your resume first — we use the detected skills as your baseline for the gap analysis."
+        description="Analyze your resume first ΓÇö we use the detected skills as your baseline for the gap analysis."
         action={<Link to="/upload" className="btn-accent">Upload your resume</Link>}
       />
     )

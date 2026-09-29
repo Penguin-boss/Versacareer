@@ -6,12 +6,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { corsHeaders, isRateLimited, jsonError } from "../_shared/security.ts";
 
 const FREE_CHAT_PER_MONTH = 10;
 const ABUSE_CEILING = 500; // internal cap on "Unlimited" — never surfaced in marketing
@@ -38,11 +33,13 @@ function chatLimit(plan: string, isFounder: boolean | null): number {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 200, headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(req) });
+  if (req.method !== "POST") return jsonError(req, "Method not allowed.", 405);
+  if (await isRateLimited(req, "mentor-chat", 20)) return jsonError(req, "Too many requests. Please try again shortly.", 429);
   try {
     const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: "AI mentor service not configured." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return jsonError(req, "AI mentor service not configured.", 500);
     }
 
     const authHeader = req.headers.get("Authorization") ?? "";
@@ -53,7 +50,7 @@ Deno.serve(async (req: Request) => {
     const userClient = createClient(supabaseUrl, authHeader.replace("Bearer ", "") || anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+       return jsonError(req, "Unauthorized.", 401);
     }
     const userId = userData.user.id;
     const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
@@ -75,13 +72,13 @@ Deno.serve(async (req: Request) => {
       return new Response(JSON.stringify({
         error: "You've reached your monthly mentor message limit. Upgrade to Pro for unlimited.",
         code: "MENTOR_PROMPT_LIMIT_REACHED",
-      }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }), { status: 403, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const payload = await req.json();
     const userMessage: string = payload.message;
-    if (!userMessage || !userMessage.trim()) {
-      return new Response(JSON.stringify({ error: "Message is empty." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    if (!userMessage || !userMessage.trim() || userMessage.length > 4000) {
+      return jsonError(req, "Message must be between 1 and 4000 characters.", 400);
     }
 
     // Context: latest resume analysis + career DNA
@@ -138,7 +135,7 @@ Deno.serve(async (req: Request) => {
       assistantText = data?.content?.[0]?.text ?? "";
       if (!assistantText) throw new Error("Claude returned no content.");
     } catch (err: any) {
-      return new Response(JSON.stringify({ error: `Mentor failed to respond: ${err.message}` }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: `Mentor failed to respond: ${err.message}` }), { status: 502, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     // Persist both messages
@@ -147,7 +144,7 @@ Deno.serve(async (req: Request) => {
       { user_id: userId, role: "assistant", content: assistantText },
     ]);
     if (insErr) {
-      return new Response(JSON.stringify({ error: "Failed to save chat history." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Failed to save chat history." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
 
@@ -160,8 +157,8 @@ Deno.serve(async (req: Request) => {
       });
     } catch { /* non-critical */ }
 
-    return new Response(JSON.stringify({ reply: assistantText }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ reply: assistantText }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   }
 });

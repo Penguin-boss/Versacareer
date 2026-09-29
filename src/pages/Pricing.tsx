@@ -90,25 +90,179 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-bg relative overflow-hidden">
-      <Helmet>
-        <title>Pricing & Plans — VersaCareer by Pragma</title>
-        <meta name="description" content="Upgrade your career journey with VersaCareer Pro, Pro+, or grab a Lifetime Founder Pass before they run out." />
+<Helmet>
+        <title>Pricing & Plans — VersaCareer | Free, Pro, Pro+ & Founder Pass</title>
+        <meta name="description" content="Choose from Free, Pro (₹299/mo), Pro+ (₹599/mo), or Lifetime Founder Pass. All plans include AI resume analysis, skill gap detection, personalized roadmaps, and mock interviews. Cancel anytime." />
+        <meta name="keywords" content="VersaCareer pricing, career coaching pricing, AI resume analyzer cost, career roadmap subscription, mock interview platform pricing" />
+        <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://versacareer.com/pricing" />
-        <meta property="og:title" content="Pricing & Plans — VersaCareer" />
-        <meta property="og:description" content="Affordable plans to unlock your career potential." />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
         <meta property="og:url" content="https://versacareer.com/pricing" />
+        <meta property="og:title" content="Pricing & Plans — VersaCareer" />
+        <meta property="og:description" content="Simple, transparent pricing. Start free, upgrade when ready. Free tier includes 3 resume analyses/month." />
+        <meta property="og:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="VersaCareer" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://versacareer.com/pricing" />
+        <meta name="twitter:title" content="Pricing & Plans — VersaCareer" />
+        <meta name="twitter:description" content="Simple, transparent pricing. Start free with 3 resume analyses/month. Upgrade to Pro, Pro+, or Lifetime Founder Pass." />
+        <meta name="twitter:image" content="https://versacareer.com/assets/brand/og-card.webp" />
+        <meta name="twitter:site" content="@versacareer" />
+        
+        {/* JSON-LD Product Schema for each plan */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "PriceSpecification",
+              "priceCurrency": "INR",
+              "minPrice": "0",
+              "maxPrice": "4999"
+            }
+          `}
+        </script>
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "VersaCareer Free",
+              "description": "Free tier with 3 resume analyses per month, Career DNA assessment, basic skill gap analysis, basic roadmap, and 10 AI mentor messages per month.",
+              "brand": { "@type": "Brand", "name": "VersaCareer" },
+              "offers": {
+                "@type": "Offer",
+                "name": "Free Plan",
+                "price": "0",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://versacareer.com/auth?mode=signup"
+              }
+            }
+          `}
+        </script>
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
               "@type": "Product",
               "name": "VersaCareer Pro",
-              "description": "Unlimited resume analysis and career mentorship",
+              "description": "Unlimited resume analyses, unlimited AI mentor chat, advanced skill gap analysis with sub-skills & resources, full personalized roadmap, premium templates, advanced ATS reports, career analytics, weekly progress reports, priority support.",
+              "brand": { "@type": "Brand", "name": "VersaCareer" },
               "offers": {
                 "@type": "Offer",
-                "price": "9.99",
-                "priceCurrency": "USD"
+                "name": "Pro Monthly",
+                "price": "299",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://versacareer.com/billing",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "299",
+                  "priceCurrency": "INR",
+                  "billingIncrement": "1",
+                  "billingPeriod": "P1M"
+                }
               }
+            }
+          `}
+        </script>
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "VersaCareer Pro+",
+              "description": "Everything in Pro plus: advanced skill gap with industry benchmarks, industry-specific roadmaps, advanced career analytics, personalized learning recommendations, career goal tracking, AI career planning sessions, premium priority support, early access to new features.",
+              "brand": { "@type": "Brand", "name": "VersaCareer" },
+              "offers": {
+                "@type": "Offer",
+                "name": "Pro+ Monthly",
+                "price": "599",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://versacareer.com/billing",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "599",
+                  "priceCurrency": "INR",
+                  "billingIncrement": "1",
+                  "billingPeriod": "P1M"
+                }
+              }
+            }
+          `}
+        </script>
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "VersaCareer Founder Pass",
+              "description": "Lifetime Pro+ membership — all V1 features + all future V2 updates, early access to new AI features, exclusive Founding Member badge, priority support, vote on upcoming features, private founders community, lifetime price lock.",
+              "brand": { "@type": "Brand", "name": "VersaCareer" },
+              "offers": {
+                "@type": "Offer",
+                "name": "Founder Pass (One-time)",
+                "price": "3999",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/LimitedAvailability",
+                "url": "https://versacareer.com/billing",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "3999",
+                  "priceCurrency": "INR"
+                }
+              }
+            }
+          `}
+        </script>
+        
+        {/* FAQ Schema for Pricing */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Can I change plans later?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can upgrade or downgrade at any time. Upgrades take effect immediately, downgrades take effect at the end of your current billing period."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is there a free trial for Pro plans?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We don't offer free trials for paid plans, but our Free tier is generous — 3 resume analyses per month, Career DNA assessment, basic skill gap analysis, and 10 AI mentor messages. This lets you experience the core value before upgrading."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What payment methods do you accept?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We accept all major credit cards (Visa, Mastercard, American Express), UPI, and Net Banking via Stripe. All payments are processed securely server-side."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I cancel my subscription anytime?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can cancel anytime from your billing page. Your paid features remain active until the end of your billing period, then you'll revert to the Free tier. Your data is preserved."
+                  }
+                }
+              ]
             }
           `}
         </script>

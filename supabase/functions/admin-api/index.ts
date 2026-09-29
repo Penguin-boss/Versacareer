@@ -6,15 +6,12 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+import { corsHeaders, isRateLimited, jsonError } from "../_shared/security.ts";
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 200, headers: corsHeaders });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(req) });
+  if (req.method !== "POST") return jsonError(req, "Method not allowed.", 405);
+  if (await isRateLimited(req, "admin-api", 60)) return jsonError(req, "Too many requests. Please try again shortly.", 429);
   try {
     const authHeader = req.headers.get("Authorization") ?? "";
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
@@ -24,14 +21,14 @@ Deno.serve(async (req: Request) => {
     const userClient = createClient(supabaseUrl, authHeader.replace("Bearer ", "") || anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Unauthorized." }), { status: 401, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
     const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
 
     // Permission gate: check role server-side on EVERY request
     const { data: profile } = await admin.from("profiles").select("role").eq("id", userData.user.id).maybeSingle();
     if ((profile as any)?.role !== "ADMIN") {
-      return new Response(JSON.stringify({ error: "Forbidden — admin role required." }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Forbidden — admin role required." }), { status: 403, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
 
     const body = await req.json();
@@ -85,7 +82,7 @@ Deno.serve(async (req: Request) => {
               created_at: m.created_at,
             })),
           },
-        }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "list_users": {
@@ -96,41 +93,41 @@ Deno.serve(async (req: Request) => {
         const { data: usage } = await admin.from("usage_counters").select("user_id, analyses_count, chat_count, resumes_generations_count").eq("month_key", mk);
         const usageMap = new Map((usage ?? []).map((u: any) => [u.user_id, u]));
         const users = (data ?? []).map((u: any) => ({ ...u, usage: usageMap.get(u.id) ?? null }));
-        return new Response(JSON.stringify({ users }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ users }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "update_user_plan": {
         const { userId, plan } = body;
         if (!userId || !["FREE", "PRO", "PRO_PLUS", "FOUNDER"].includes(plan)) {
-          return new Response(JSON.stringify({ error: "Invalid input." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          return new Response(JSON.stringify({ error: "Invalid input." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
         }
         const patch: any = { plan };
         if (plan === "FOUNDER") { patch.is_founder = true; patch.billing_cycle = "LIFETIME"; patch.plan_renews_at = null; }
         const { error } = await admin.from("profiles").update(patch).eq("id", userId);
         if (error) throw error;
-        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "update_user_role": {
         const { userId, role } = body;
         if (!userId || !["USER", "ADMIN"].includes(role)) {
-          return new Response(JSON.stringify({ error: "Invalid input." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          return new Response(JSON.stringify({ error: "Invalid input." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
         }
         const { error } = await admin.from("profiles").update({ role }).eq("id", userId);
         if (error) throw error;
-        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "list_resources": {
         const { data, error } = await admin.from("resources").select("*").order("created_at", { ascending: false });
         if (error) throw error;
-        return new Response(JSON.stringify({ resources: data }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ resources: data }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "create_resource": {
         const { resource } = body;
         if (!resource?.title || !resource?.url || !resource?.type) {
-          return new Response(JSON.stringify({ error: "title, url, type required." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          return new Response(JSON.stringify({ error: "title, url, type required." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
         }
         const { data, error } = await admin.from("resources").insert({
           title: resource.title,
@@ -141,23 +138,23 @@ Deno.serve(async (req: Request) => {
           is_published: resource.is_published ?? true,
         }).select("*").single();
         if (error) throw error;
-        return new Response(JSON.stringify({ resource: data }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ resource: data }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "update_resource": {
         const { id, patch } = body;
-        if (!id) return new Response(JSON.stringify({ error: "id required." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        if (!id) return new Response(JSON.stringify({ error: "id required." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
         const { error } = await admin.from("resources").update(patch).eq("id", id);
         if (error) throw error;
-        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "delete_resource": {
         const { id } = body;
-        if (!id) return new Response(JSON.stringify({ error: "id required." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        if (!id) return new Response(JSON.stringify({ error: "id required." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
         const { error } = await admin.from("resources").delete().eq("id", id);
         if (error) throw error;
-        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "list_feedback": {
@@ -168,21 +165,21 @@ Deno.serve(async (req: Request) => {
         const { data: profiles } = await admin.from("profiles").select("id, email, name").in("id", userIds);
         const pMap = new Map((profiles ?? []).map((p: any) => [p.id, p]));
         const feedback = (data ?? []).map((f: any) => ({ ...f, user: pMap.get(f.user_id) ?? null }));
-        return new Response(JSON.stringify({ feedback }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ feedback }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "list_flags": {
         const { data, error } = await admin.from("feature_flags").select("*").order("key");
         if (error) throw error;
-        return new Response(JSON.stringify({ flags: data }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ flags: data }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "toggle_flag": {
         const { key, is_enabled } = body;
-        if (!key) return new Response(JSON.stringify({ error: "key required." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        if (!key) return new Response(JSON.stringify({ error: "key required." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
         const { error } = await admin.from("feature_flags").update({ is_enabled, updated_at: new Date().toISOString() }).eq("key", key);
         if (error) throw error;
-        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       case "ai_usage": {
@@ -192,13 +189,13 @@ Deno.serve(async (req: Request) => {
         const { data: profiles } = await admin.from("profiles").select("id, email").in("id", userIds);
         const pMap = new Map((profiles ?? []).map((p: any) => [p.id, p.email]));
         const logs = (data ?? []).map((l: any) => ({ ...l, email: pMap.get(l.user_id) ?? "—" }));
-        return new Response(JSON.stringify({ logs }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ logs }), { status: 200, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
       }
 
       default:
-        return new Response(JSON.stringify({ error: "Unknown action." }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        return new Response(JSON.stringify({ error: "Unknown action." }), { status: 400, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
     }
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: err.message ?? "Internal error." }), { status: 500, headers: { ...corsHeaders(req), "Content-Type": "application/json" } });
   }
 });

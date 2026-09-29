@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FileText, CloudUpload as UploadCloud, X, Sparkles, FileWarning } from 'lucide-react'
 import { PageHeader } from '../components/DashboardLayout'
@@ -142,7 +142,7 @@ export default function Upload() {
             </div>
             <div>
               <div className="font-medium">Drop your resume here, or click to browse</div>
-              <div className="text-sm text-text-muted mt-1">PDF, DOCX, or TXT · max 5MB</div>
+              <div className="text-sm text-text-muted mt-1">PDF, DOCX, or TXT ┬╖ max 5MB</div>
             </div>
           </div>
         )}
@@ -161,7 +161,7 @@ export default function Upload() {
             <div>
               <p className="font-medium text-warning mb-1">Scanned or image-based PDF detected</p>
               <p className="text-sm text-text-muted leading-relaxed">
-                We couldn't find a text layer in this PDF — it looks like a scanned photo or image rather than a native text document. Please re-export your resume as a text-based PDF (from Word or Google Docs) or upload a DOCX file, then try again.
+                We couldn't find a text layer in this PDF ΓÇö it looks like a scanned photo or image rather than a native text document. Please re-export your resume as a text-based PDF (from Word or Google Docs) or upload a DOCX file, then try again.
               </p>
             </div>
           </div>
@@ -170,10 +170,10 @@ export default function Upload() {
 
       <div className="flex items-center justify-between mt-6">
         <p className="text-xs text-text-faint flex items-center gap-1.5">
-          <Sparkles className="h-3.5 w-3.5" /> Powered by Gemini 2.5 Flash · processed server-side
+          <Sparkles className="h-3.5 w-3.5" /> Powered by Gemini 2.5 Flash ┬╖ processed server-side
         </p>
         <button onClick={analyze} disabled={!file || loading} className="btn-accent">
-          {loading ? 'Analyzing…' : 'Analyze resume'}
+          {loading ? 'AnalyzingΓÇª' : 'Analyze resume'}
         </button>
       </div>
 
@@ -181,7 +181,7 @@ export default function Upload() {
         <div className="card p-6 mt-6">
           <div className="flex items-center gap-3 mb-3">
             <AnalyzingDots />
-            <span className="text-sm text-text-muted">Extracting text and running AI analysis…</span>
+            <span className="text-sm text-text-muted">Extracting text and running AI analysisΓÇª</span>
           </div>
           <p className="text-xs text-text-faint">This usually takes 10-30 seconds. Please don't close this page.</p>
         </div>
