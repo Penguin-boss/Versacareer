@@ -7,8 +7,8 @@
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.com/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.vercel.app/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.vercel.app/" />
     <image:image>
       <image:loc>https://versacareer.com/assets/brand/og-card.webp</image:loc>
       <image:title>VersaCareer - AI Career Intelligence Platform</image:title>
@@ -20,23 +20,23 @@
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.com/pricing" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.com/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.vercel.app/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.vercel.app/pricing" />
   </url>
   <url>
     <loc>https://versacareer.com/privacy</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.com/privacy" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.vercel.app/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.vercel.app/privacy" />
   </url>
   <url>
     <loc>https://versacareer.com/blog</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.com/blog" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.com/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://versacareer.vercel.app/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://versacareer.vercel.app/blog" />
   </url>
 </urlset>
